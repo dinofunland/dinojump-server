@@ -11,7 +11,7 @@
       "test": "echo \"Error: no test specified\" && exit 1"
     },
     "author": "Jonas Voland",
-    "license": "ISC",
+    "license": "The Unlicense",
     "dependencies": {
       "@colyseus/command": "^0.2.1",
       "@colyseus/monitor": "^0.14.22",
