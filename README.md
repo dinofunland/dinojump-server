@@ -22,4 +22,4 @@ Run command in the root folder:
 
 Needs a completed build
 
-``npm run start:prod`
+`npm run start:prod`
