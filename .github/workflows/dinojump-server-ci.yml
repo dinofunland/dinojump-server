@@ -2,8 +2,6 @@ name: dinojump-server-ci
 'on':
   workflow_dispatch: {}
   push:
-    paths:
-      - 'api-race-control/**'
 jobs:
   build:
     runs-on: ubuntu-latest
