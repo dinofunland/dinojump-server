@@ -23,3 +23,7 @@ Run command in the root folder:
 Needs a completed build
 
 `npm run start:prod`
+
+## Kanban:
+
+https://trello.com/b/YzL9rHUE/dinojump-server
