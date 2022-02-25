@@ -1,11 +1,11 @@
 import { Command } from "@colyseus/command";
 import { Room } from "colyseus";
 import logger from "../../services/logger.services";
-import { GameStep, GameState } from "../game.state";
+import { GameStep, GameSchema } from "../game.state";
 
 interface EndGamePayload { }
 
-export class EndGameCommand extends Command<Room<GameState>, EndGamePayload> {
+export class EndGameCommand extends Command<Room<GameSchema>, EndGamePayload> {
     execute(payload: EndGamePayload) {
         logger('End Game', 'Command')
         if (this.state.gameStep != GameStep.ONGOING) return;

@@ -1,21 +1,21 @@
 import http from 'http';
 import { Room, Client } from 'colyseus';
 import logger from '../services/logger.services';
-import { GameState } from './game.state';
+import { GameSchema } from './game.state';
 import { Dispatcher } from '@colyseus/command';
 import { OnJoinCommand } from './commands/onJoin.command';
 import { OnLeaveCommand } from './commands/onLeave.command';
 import { PlayerReadyCommand } from './commands/playerReady.command';
 import { PlayerNotReadyCommand } from './commands/playerNotReady.command';
 
-export class GameRoom extends Room<GameState> {
+export class GameRoom extends Room<GameSchema> {
 
     public dispatcher: Dispatcher<GameRoom> = new Dispatcher(this);
 
     async onCreate(options: any) {
         logger(`onCreate`, 'GameRoom')
 
-        this.setState(new GameState())
+        this.setState(new GameSchema())
 
         logger(`onCreate ${this.roomName} ${this.roomId}`, 'GameRoom')
 

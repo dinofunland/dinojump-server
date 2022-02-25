@@ -13,26 +13,26 @@ export enum FloorType {
     MOVING = 'Moving'
 }
 
-export class PositionState extends Schema {
+export class PositionSchema extends Schema {
     @type('number') x: number = 0
     @type('number') y: number = 0
 }
 
-export class FloorState extends Schema {
+export class FloorSchema extends Schema {
     @type('string') type: FloorType = FloorType.STATIC
     @type('number') width: number = 1
-    @type(PositionState) position: PositionState
+    @type(PositionSchema) position: PositionSchema
 }
 
-export class PlayerState extends Schema {
+export class PlayerSchema extends Schema {
     @type('string') sessionId: string
     @type('string') username: string = 'Player Name'
     @type('boolean') isReady: boolean = false
 }
 
-export class GameState extends Schema {
+export class GameSchema extends Schema {
     @type('string') gameStep: GameStep = GameStep.LOBBY
     @type('number') gameSpeed = 10
-    @type({ map: PlayerState }) players = new MapSchema<PlayerState>()
-    @type({ map: FloorState }) floors = new MapSchema<FloorState>()
+    @type({ map: PlayerSchema }) players = new MapSchema<PlayerSchema>()
+    @type({ map: FloorSchema }) floors = new MapSchema<FloorSchema>()
 }
