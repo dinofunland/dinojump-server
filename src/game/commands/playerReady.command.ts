@@ -3,7 +3,6 @@ import { MapSchema } from '@colyseus/schema'
 import { Room } from "colyseus";
 import logger from "../../services/logger.services";
 import { GameSchema, GameStep, PlayerSchema } from "../game.state";
-import { EndGameCommand } from "./endGame.command";
 import { StartGameCommand } from "./startGame.command";
 
 interface PlayerReadyPayload {
