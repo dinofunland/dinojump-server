@@ -24,6 +24,12 @@ export class PatformSchema extends Schema {
     @type(PositionSchema) position: PositionSchema
 }
 
+export class FloorSchema extends Schema {
+    @type(PositionSchema) position = new PositionSchema().assign({
+        y: -5
+    })
+}
+
 export class PlayerSchema extends Schema {
     @type('string') sessionId: string
     @type('string') username: string = 'Player Name'
@@ -39,4 +45,5 @@ export class GameSchema extends Schema {
     @type('number') gameSpeed = 10
     @type({ map: PlayerSchema }) players = new MapSchema<PlayerSchema>()
     @type({ map: PatformSchema }) platforms = new MapSchema<PatformSchema>()
+    @type(FloorSchema) floor = new FloorSchema()
 }
