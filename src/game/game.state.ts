@@ -38,5 +38,5 @@ export class GameSchema extends Schema {
     @type('string') gameStep: GameStep = GameStep.LOBBY
     @type('number') gameSpeed = 10
     @type({ map: PlayerSchema }) players = new MapSchema<PlayerSchema>()
-    @type({ map: PatformSchema }) floors = new MapSchema<PatformSchema>()
+    @type({ map: PatformSchema }) platforms = new MapSchema<PatformSchema>()
 }
