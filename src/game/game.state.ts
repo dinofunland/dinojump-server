@@ -46,12 +46,20 @@ export class FloorSchema extends Schema {
     }
 }
 
+export class InputSchema extends Schema {
+    @type('boolean') left = false
+    @type('boolean') right = false
+}
+
 export class PlayerSchema extends Schema {
     @type('string') sessionId: string
     @type('string') username: string = 'Player Name'
     @type('boolean') isReady: boolean = false
     @type(PositionSchema) position = new PositionSchema()
+    @type('number') baseMoveSpeed = 1
     @type('number') fallingSpeed = 0
+
+    @type(InputSchema) input = new InputSchema()
 
     public reset = () => {
         this.isReady = false
@@ -59,11 +67,19 @@ export class PlayerSchema extends Schema {
 
     update(delateTime: number, gameSpeed: number) {
         this.fallDown(delateTime, gameSpeed)
-        return 
-        const distanceToFall = new BigNumber(this.fallingSpeed).multipliedBy(gameSpeed).multipliedBy(delateTime).toNumber()
-        this.position.y = new BigNumber(this.position.y).minus(distanceToFall).toNumber()
-        const fallingSpeedToAdd = new BigNumber(gravity).multipliedBy(gameSpeed).multipliedBy(delateTime).toNumber()
-        this.fallingSpeed = new BigNumber(this.fallingSpeed).plus(fallingSpeedToAdd).toNumber()
+        this.move(delateTime, gameSpeed)
+    }
+
+    private move(delateTime: number, gameSpeed: number) {
+        const needsToMove = this.input.left != this.input.right
+        if (!needsToMove) return;
+        const distanceToMove = new BigNumber(this.baseMoveSpeed).dividedBy(100).multipliedBy(gameSpeed).multipliedBy(delateTime).toNumber()
+        if(this.input.left) {
+            this.position.x = new BigNumber(this.position.x).minus(distanceToMove).toNumber()
+        }
+        if(this.input.right) {
+            this.position.x = new BigNumber(this.position.x).plus(distanceToMove).toNumber()
+        }
     }
 
     private fallDown(delateTime: number, gameSpeed: number) {
@@ -71,7 +87,6 @@ export class PlayerSchema extends Schema {
         this.position.y = new BigNumber(this.position.y).minus(distanceToMove).toNumber()
         const gravityToAdd = new BigNumber(gravity).multipliedBy(gameSpeed).dividedBy(1000).multipliedBy(delateTime).toNumber()
         this.fallingSpeed = new BigNumber(this.fallingSpeed).plus(gravityToAdd).toNumber()
-        console.log('DOWN', this.position.y)
     }
 }
 

@@ -7,6 +7,7 @@ import { OnJoinCommand } from './commands/onJoin.command';
 import { OnLeaveCommand } from './commands/onLeave.command';
 import { PlayerReadyCommand } from './commands/playerReady.command';
 import { PlayerNotReadyCommand } from './commands/playerNotReady.command';
+import { PlayerMoveCommand } from './commands/playerMove.command';
 
 const LETTERS = "12345890ASDF";
 
@@ -53,6 +54,14 @@ export class GameRoom extends Room<GameSchema> {
         this.onMessage('notReady', (client) => {
             this.dispatcher.dispatch(new PlayerNotReadyCommand(), {
                 sessionId: client.sessionId
+            })
+        })
+
+        this.onMessage('move', (client, message: { left: boolean, right: boolean}) => {
+            this.dispatcher.dispatch(new PlayerMoveCommand(), {
+                sessionId: client.sessionId,
+                left: message.left,
+                right: message.right
             })
         })
 
