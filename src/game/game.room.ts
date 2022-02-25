@@ -8,12 +8,37 @@ import { OnLeaveCommand } from './commands/onLeave.command';
 import { PlayerReadyCommand } from './commands/playerReady.command';
 import { PlayerNotReadyCommand } from './commands/playerNotReady.command';
 
+const LETTERS = "12345890ASDF";
+
 export class GameRoom extends Room<GameSchema> {
+
+    LOBBY_CHANNEL = "$mylobby"
 
     public dispatcher: Dispatcher<GameRoom> = new Dispatcher(this);
 
+    generateRoomIdSingle(): string {
+        let result = '';
+        for (var i = 0; i < 4; i++) {
+            result += LETTERS.charAt(Math.floor(Math.random() * LETTERS.length));
+        }
+        return result;
+    }
+
+    async generateRoomId(): Promise<string> {
+        const currentIds = await this.presence.smembers(this.LOBBY_CHANNEL);
+        let id;
+        do {
+            id = this.generateRoomIdSingle();
+        } while (currentIds.includes(id));
+
+        await this.presence.sadd(this.LOBBY_CHANNEL, id);
+        return id;
+    }
+
     async onCreate(options: any) {
         logger(`onCreate`, 'GameRoom')
+
+        this.roomId = await this.generateRoomId();
 
         this.setState(new GameSchema())
 
@@ -60,6 +85,7 @@ export class GameRoom extends Room<GameSchema> {
 
     onDispose() {
         this.dispatcher.stop()
+        this.presence.srem(this.LOBBY_CHANNEL, this.roomId);
         logger(`onDispose ${this.roomName} ${this.roomId}`, 'GameRoom')
     }
 }
