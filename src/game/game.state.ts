@@ -30,7 +30,6 @@ export class PlayerSchema extends Schema {
     @type('boolean') isReady: boolean = false
 
     public resetPlayer = () => {
-        console.log('reset Player')
         this.isReady = false
     }
 }
