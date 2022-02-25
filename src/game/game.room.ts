@@ -5,11 +5,12 @@ import { GameState } from './game.state';
 import { Dispatcher } from '@colyseus/command';
 import { OnJoinCommand } from './commands/onJoin.command';
 import { OnLeaveCommand } from './commands/onLeave.command';
-import { StartGameCommand } from './commands/startGame.command';
+import { PlayerReadyCommand } from './commands/playerReady.command';
+import { PlayerNotReadyCommand } from './commands/playerNotReady.command';
 
 export class GameRoom extends Room<GameState> {
 
-    dispatcher: Dispatcher<GameRoom> = new Dispatcher(this);
+    public dispatcher: Dispatcher<GameRoom> = new Dispatcher(this);
 
     async onCreate(options: any) {
         logger(`onCreate`, 'GameRoom')
@@ -18,8 +19,16 @@ export class GameRoom extends Room<GameState> {
 
         logger(`onCreate ${this.roomName} ${this.roomId}`, 'GameRoom')
 
-        this.onMessage('startGame', () => {
-            this.dispatcher.dispatch(new StartGameCommand())
+        this.onMessage('ready', (client) => {
+            this.dispatcher.dispatch(new PlayerReadyCommand(), {
+                sessionId: client.sessionId
+            })
+        })
+
+        this.onMessage('notReady', (client) => {
+            this.dispatcher.dispatch(new PlayerNotReadyCommand(), {
+                sessionId: client.sessionId
+            })
         })
 
         this.onMessage("*", (client, type, message) => {
