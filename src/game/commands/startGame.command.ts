@@ -20,7 +20,7 @@ export class StartGameCommand extends Command<GameRoom, StartGamePayload> {
 
             this.clock.setTimeout(() => {
                 this.room.dispatcher.dispatch(new EndGameCommand())
-            }, 10_000)
+            }, 100_000)
         }, 5_000)
     }
 }

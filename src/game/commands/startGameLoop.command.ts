@@ -6,7 +6,7 @@ interface StartGameLoopPayload { }
 export class StartGameLoopCommand extends Command<GameRoom, StartGameLoopPayload> {
     execute(payload: StartGameLoopPayload) {
         this.room.setSimulationInterval((delateTime) => {
-            this.state.floor.moveUp(delateTime, this.state.gameSpeed)
+            this.state.update(delateTime)
         })
     }
 }
