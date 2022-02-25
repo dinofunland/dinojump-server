@@ -11,11 +11,10 @@ export class EndGameCommand extends Command<Room<GameState>, EndGamePayload> {
         if (this.state.gameStep != GameStep.ONGOING) return;
         this.state.gameStep = GameStep.ENDED
 
-        this.state.players.forEach((value) => {
-            value.isReady = false
-        })
-
         this.clock.setTimeout(() => {
+            this.state.players.forEach((value) => {
+                value.isReady = false
+            })
             this.state.gameStep = GameStep.LOBBY
             this.room.unlock()
         }, 10_000)
