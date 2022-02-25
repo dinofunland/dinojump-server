@@ -4,24 +4,24 @@
     "description": "",
     "main": "dist/main.js",
     "scripts": {
-      "build": "tsc",
-      "start": "node dist/main.js",
-      "start:dev": "ts-node-dev --watch \"src/**/*\" --respawn --transpile-only src/main.ts ",
-      "test": "echo \"Error: no test specified\" && exit 1"
+        "build": "tsc",
+        "start": "node dist/main.js",
+        "start:dev": "ts-node-dev --watch \"src/**/*\" --respawn --transpile-only src/main.ts ",
+        "test": "echo \"Error: no test specified\" && exit 1"
     },
     "author": "Jonas Voland",
     "license": "The Unlicense",
     "dependencies": {
-      "@colyseus/command": "^0.2.1",
-      "@colyseus/monitor": "^0.14.22",
-      "@colyseus/ws-transport": "^0.14.21",
-      "colyseus": "^0.14.23",
-      "dotenv": "^16.0.0",
-      "express": "^4.17.3"
+        "@colyseus/command": "^0.2.1",
+        "@colyseus/monitor": "^0.14.22",
+        "@colyseus/ws-transport": "^0.14.21",
+        "bignumber.js": "^9.0.2",
+        "colyseus": "^0.14.23",
+        "dotenv": "^16.0.0",
+        "express": "^4.17.3"
     },
     "devDependencies": {
-      "ts-node-dev": "^1.1.8",
-      "typescript": "^4.5.5"
+        "ts-node-dev": "^1.1.8",
+        "typescript": "^4.5.5"
     }
-  }
-  
+}

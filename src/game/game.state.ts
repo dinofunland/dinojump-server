@@ -1,4 +1,5 @@
 import { Schema, type, MapSchema } from '@colyseus/schema'
+import BigNumber from 'bignumber.js'
 
 export enum GameStep {
     LOBBY = 'Lobby',
@@ -28,6 +29,17 @@ export class FloorSchema extends Schema {
     @type(PositionSchema) position = new PositionSchema().assign({
         y: -5
     })
+
+    reset() {
+        this.position.y = -5
+    }
+
+    moveUp(delateTime, speed) {
+        const distanceToMove = new BigNumber(speed).dividedBy(1000).multipliedBy(delateTime).toNumber()
+        this.position.y = new BigNumber(this.position.y).plus(distanceToMove).toNumber()
+
+        console.log(this.position.y)
+    }
 }
 
 export class PlayerSchema extends Schema {
@@ -35,14 +47,14 @@ export class PlayerSchema extends Schema {
     @type('string') username: string = 'Player Name'
     @type('boolean') isReady: boolean = false
 
-    public resetPlayer = () => {
+    public reset = () => {
         this.isReady = false
     }
 }
 
 export class GameSchema extends Schema {
     @type('string') gameStep: GameStep = GameStep.LOBBY
-    @type('number') gameSpeed = 10
+    @type('number') gameSpeed = 1
     @type({ map: PlayerSchema }) players = new MapSchema<PlayerSchema>()
     @type({ map: PatformSchema }) platforms = new MapSchema<PatformSchema>()
     @type(FloorSchema) floor = new FloorSchema()
