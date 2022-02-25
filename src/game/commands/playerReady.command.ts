@@ -19,7 +19,7 @@ function isEveryPlayerReady(players: MapSchema<PlayerSchema>): boolean {
 export class PlayerReadyCommand extends Command<Room<GameSchema>, PlayerReadyPayload> {
     execute(payload: PlayerReadyPayload) {
         logger('Player Ready', 'Command')
-        if (this.state.gameStep != GameStep.LOBBY) throw 'game isnt in lobby step';
+        if (this.state.gameStep != GameStep.LOBBY) return
         const player = this.state.players.get(payload.sessionId)
         if (!player) throw 'player not found'
         player.isReady = true
