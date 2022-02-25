@@ -1,22 +1,19 @@
 import { Command } from "@colyseus/command";
-import { Room } from "colyseus";
 import logger from "../../services/logger.services";
-import { GameStep, GameSchema } from "../game.state";
+import { GameRoom } from "../game.room";
+import { GameStep } from "../game.state";
+import { ResetGameCommand } from "./resetGame.command";
 
 interface EndGamePayload { }
 
-export class EndGameCommand extends Command<Room<GameSchema>, EndGamePayload> {
+export class EndGameCommand extends Command<GameRoom, EndGamePayload> {
     execute(payload: EndGamePayload) {
         logger('End Game', 'Command')
         if (this.state.gameStep != GameStep.ONGOING) return;
         this.state.gameStep = GameStep.ENDED
 
         this.clock.setTimeout(() => {
-            this.state.players.forEach((value) => {
-                value.isReady = false
-            })
-            this.state.gameStep = GameStep.LOBBY
-            this.room.unlock()
+            this.room.dispatcher.dispatch(new ResetGameCommand())
         }, 10_000)
     }
 }

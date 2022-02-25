@@ -28,6 +28,11 @@ export class PlayerSchema extends Schema {
     @type('string') sessionId: string
     @type('string') username: string = 'Player Name'
     @type('boolean') isReady: boolean = false
+
+    public resetPlayer = () => {
+        console.log('reset Player')
+        this.isReady = false
+    }
 }
 
 export class GameSchema extends Schema {
