@@ -2,6 +2,10 @@ import { Schema, type, MapSchema } from '@colyseus/schema'
 import BigNumber from 'bignumber.js'
 import Matter from 'matter-js'
 
+const invertNumber = (i: number) => {
+    return i - (i * 2)
+}
+
 export enum GameStep {
     LOBBY = 'Lobby',
     STARTING = 'Starting',
@@ -34,7 +38,7 @@ export class PlatformSchema extends Schema {
 
     sync() {
         this.position.x = this.body.position.x
-        this.position.y = this.body.position.y
+        this.position.y = invertNumber(this.body.position.y)
     }
 }
 
@@ -62,7 +66,7 @@ export class PlayerSchema extends Schema {
 
     sync() {
         this.position.x = this.body.position.x
-        this.position.y = this.body.position.y
+        this.position.y = invertNumber(this.body.position.y)
     }
 }
 
