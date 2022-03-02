@@ -58,6 +58,17 @@ export function useGameWorld(schema: GameSchema) {
     // run the engine
     Matter.Runner.run(runner, engine);
 
+    Matter.Events.on(runner, 'beforeTick', (e) => {
+        schema.players.forEach(player => {
+            // handle player collision if goes up he should go through platforms. if he falls he should collide with plattforms 
+            if (player.body.velocity.y < 0) {
+                player.body.collisionFilter.mask = 0
+            } else {
+                player.body.collisionFilter.mask = 1
+            }
+        })
+    })
+
     Matter.Events.on(runner, 'afterTick', (e) => {
         const platforms: Matter.Body[] = Array.from(schema.platforms.values()).map(value => value.body)
         const floors: Matter.Body[] = [ground, ...platforms]
@@ -89,13 +100,6 @@ export function useGameWorld(schema: GameSchema) {
                     playerBody.friction = 0.9
                     break;
                 }
-            }
-
-            // handle player collision if goes up he should go through platforms. if he falls he should collide with plattforms 
-            if (playerBody.velocity.y < 0) {
-                playerBody.collisionFilter.mask = 0
-            } else {
-                playerBody.collisionFilter.mask = 1
             }
         })
 
