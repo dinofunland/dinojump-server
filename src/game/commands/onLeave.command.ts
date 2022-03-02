@@ -1,15 +1,16 @@
 import { Command } from "@colyseus/command";
-import { Room } from "colyseus";
 import logger from "../../services/logger.services";
-import { GameSchema } from "../game.state";
+import { GameRoom } from "../game.room";
 
 interface OnLeavePayload {
     sessionId: string
 }
 
-export class OnLeaveCommand extends Command<Room<GameSchema>, OnLeavePayload> {
+export class OnLeaveCommand extends Command<GameRoom, OnLeavePayload> {
     execute(payload: OnLeavePayload) {
         logger('On Leave', 'Command')
+        const bodyPlayer = this.state.players.get(payload.sessionId).body
         this.state.players.delete(payload.sessionId)
+        this.room.gameWorld.removeBody(bodyPlayer)
     }
 }

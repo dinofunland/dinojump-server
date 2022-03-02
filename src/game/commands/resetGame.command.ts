@@ -8,7 +8,13 @@ interface ResetGamePayload { }
 export class ResetGameCommand extends Command<GameRoom, ResetGamePayload> {
     execute(payload: ResetGamePayload) {
         logger('Reset Game', 'Command')
-        this.state.reset()
+        // TODO: RESET GAME world
+        this.state.players.forEach((value) => {
+            value.isReady = false
+            value.body.position.x = 0
+            value.body.position.y = 1
+        })
+        this.state.gameStep = GameStep.LOBBY
         this.room.unlock()
     }
 }

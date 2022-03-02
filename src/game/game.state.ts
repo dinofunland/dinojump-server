@@ -1,7 +1,6 @@
 import { Schema, type, MapSchema } from '@colyseus/schema'
 import BigNumber from 'bignumber.js'
-
-export const gravity = 0.1
+import Matter from 'matter-js'
 
 export enum GameStep {
     LOBBY = 'Lobby',
@@ -10,7 +9,7 @@ export enum GameStep {
     ENDED = 'Ended'
 }
 
-export enum FloorType {
+export enum PlatformType {
     STATIC = 'Static',
     FALLING = 'Falling',
     MOVING = 'Moving'
@@ -21,29 +20,29 @@ export class PositionSchema extends Schema {
     @type('number') y: number = 0
 }
 
-export class PlatformSchema extends Schema {
-    @type('string') type: FloorType = FloorType.STATIC
+export class SizeSchema extends Schema {
     @type('number') width: number = 1
+    @type('number') height: number = 1
+}
+
+export class PlatformSchema extends Schema {
+    @type('string') type: PlatformType = PlatformType.STATIC
     @type(PositionSchema) position = new PositionSchema()
+    @type(SizeSchema) size = new SizeSchema()
+
+    body: Matter.Body
+
+    sync() {
+        this.position.x = this.body.position.x
+        this.position.y = this.body.position.y
+    }
 }
 
 export class FloorSchema extends Schema {
     @type(PositionSchema) position = new PositionSchema().assign({
         y: -5
     })
-
-    reset() {
-        this.position.y = -5
-    }
-
-    update(delateTime: number, gameSpeed: number) {
-        this.moveUp(delateTime, gameSpeed)
-    }
-
-    private moveUp(delateTime: number, gameSpeed: number) {
-        const distanceToMove = new BigNumber(gameSpeed).dividedBy(1000).multipliedBy(delateTime).toNumber()
-        this.position.y = new BigNumber(this.position.y).plus(distanceToMove).toNumber()
-    }
+    @type(SizeSchema) size = new SizeSchema()
 }
 
 export class InputSchema extends Schema {
@@ -53,54 +52,17 @@ export class InputSchema extends Schema {
 
 export class PlayerSchema extends Schema {
     @type('string') sessionId: string
-    @type('string') username: string = 'Player Name'
+    @type('string') username: string = 'No Name'
     @type('boolean') isReady: boolean = false
-    @type(PositionSchema) position = new PositionSchema().assign({
-        x: 0,
-        y: 1
-    })
-    @type('number') speedX = 1
-    @type('number') speedY = 0
-    @type('boolean') isOnPlatform = false
-
+    @type(PositionSchema) position = new PositionSchema()
+    @type(SizeSchema) size = new SizeSchema()
     @type(InputSchema) input = new InputSchema()
 
-    reset = () => {
-        this.isReady = false
-        this.isOnPlatform = false
-        this.position.assign({
-            x: 0,
-            y: 1
-        })
-    }
+    body: Matter.Body
 
-    update(delateTime: number, gameSpeed: number) {
-        this.moveY(delateTime, gameSpeed)
-        this.moveX(delateTime, gameSpeed)
-        this.fall(delateTime, gameSpeed)
-    }
-
-    private moveX(delateTime: number, gameSpeed: number) {
-        const needsToMove = this.input.left != this.input.right
-        if (!needsToMove) return;
-        const distanceToMove = new BigNumber(this.speedX).dividedBy(100).multipliedBy(gameSpeed).multipliedBy(delateTime).toNumber()
-        if (this.input.left) {
-            this.position.x = new BigNumber(this.position.x).minus(distanceToMove).toNumber()
-        }
-        if (this.input.right) {
-            this.position.x = new BigNumber(this.position.x).plus(distanceToMove).toNumber()
-        }
-    }
-
-    private moveY(delateTime: number, gameSpeed: number) {
-        const distanceToMove = new BigNumber(this.speedY).dividedBy(100).multipliedBy(gameSpeed).multipliedBy(delateTime).toNumber()
-        this.position.y = new BigNumber(this.position.y).plus(distanceToMove).toNumber()
-    }
-
-    private fall(delateTime: number, gameSpeed: number) {
-        if (this.isOnPlatform) return
-        const gravityToAdd = new BigNumber(gravity).multipliedBy(gameSpeed).dividedBy(1000).multipliedBy(delateTime).toNumber()
-        this.speedY = new BigNumber(this.speedY).plus(gravityToAdd).toNumber()
+    sync() {
+        this.position.x = this.body.position.x
+        this.position.y = this.body.position.y
     }
 }
 
@@ -108,36 +70,15 @@ export class GameSchema extends Schema {
     @type('string') gameStep: GameStep = GameStep.LOBBY
     @type('number') gameSpeed = 1
     @type({ map: PlayerSchema }) players = new MapSchema<PlayerSchema>()
-    @type({ map: PlatformSchema }) platforms = new MapSchema<PlatformSchema>().set('00', new PlatformSchema().assign({
-        width: 100
-    }))
+    @type({ map: PlatformSchema }) platforms = new MapSchema<PlatformSchema>()
     @type(FloorSchema) floor = new FloorSchema()
 
-    update(delateTime: number) {
-        this.ckeckCollision()
-        this.floor.update(delateTime, this.gameSpeed)
-        this.players.forEach((value) => {
-            value.update(delateTime, this.gameSpeed)
+    sync() {
+        this.players.forEach(value => {
+            value.sync()
         })
-    }
-
-    ckeckCollision() {
-
-    }
-
-    reset() {
-        this.platforms.clear()
-        this.platforms.set('00', new PlatformSchema().assign({
-            width: 100
-        }))
-
-        this.floor.reset()
-
-        this.players.forEach((value) => {
-            value.reset()
+        this.platforms.forEach(value => {
+            value.sync()
         })
-        this.gameStep = GameStep.LOBBY
-
-        this.players.forEach
     }
 }
