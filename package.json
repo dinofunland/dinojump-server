@@ -9,7 +9,8 @@
     "start:dev": "ts-node-dev --watch \"src/**/*\" --respawn --transpile-only src/main.ts ",
     "format:write": "prettier . --write",
     "format:check": "prettier --check .",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "generateCsharpSchemas": "npx schema-codegen src/game/game.state.ts --csharp --output ./schema --namespace Dinojump.Schemas"
   },
   "author": "Jonas Voland",
   "license": "The Unlicense",
