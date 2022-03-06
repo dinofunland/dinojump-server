@@ -116,6 +116,10 @@ export class GameRoom extends Room<GameSchema> {
       })
     })
 
+    this.onMessage('selectSkin', (client, message) => {
+      console.log('TODO: select skin')
+    })
+
     this.onMessage('*', (client, type, message) => {
       logger(
         `onMessage Client: ${client.sessionId} sent ${type} ${JSON.stringify(
