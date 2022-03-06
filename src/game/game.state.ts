@@ -19,6 +19,12 @@ export enum PlatformType {
   MOVING = 'Moving',
 }
 
+export enum PlayerSkin {
+  BLUE,
+  GREEN,
+  YELLOW
+}
+
 export class PositionSchema extends Schema {
   @type('number') x: number = 0
   @type('number') y: number = 0
@@ -61,6 +67,7 @@ export class PlayerSchema extends Schema {
   @type(PositionSchema) position = new PositionSchema()
   @type(SizeSchema) size = new SizeSchema()
   @type(InputSchema) input = new InputSchema()
+  @type('number') skin: PlayerSkin = PlayerSkin.BLUE
 
   body: Matter.Body
 
