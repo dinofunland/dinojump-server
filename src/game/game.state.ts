@@ -67,7 +67,7 @@ export class PlayerSchema extends Schema {
   @type(PositionSchema) position = new PositionSchema()
   @type(SizeSchema) size = new SizeSchema()
   @type(InputSchema) input = new InputSchema()
-  @type('int16') skin: PlayerSkin = PlayerSkin.BLUE
+  @type('number') skin: PlayerSkin = PlayerSkin.BLUE
 
   body: Matter.Body
 
