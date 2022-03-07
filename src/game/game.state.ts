@@ -1,5 +1,4 @@
 import { Schema, type, MapSchema } from '@colyseus/schema'
-import BigNumber from 'bignumber.js'
 import Matter from 'matter-js'
 
 const invertNumber = (i: number) => {
