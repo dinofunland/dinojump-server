@@ -118,7 +118,9 @@ export function useGameWorld(schema: GameSchema) {
       for (let floor of floors) {
         const doesCollide = Matter.SAT.collides(floor, playerBody)
         // TODO only add friction if play stand on top of a floor
-        if (doesCollide?.collided /* && floor.position.y - 2.5 > player.position.y + 4.9 */) {
+        if (
+          doesCollide?.collided /* && floor.position.y - 2.5 > player.position.y + 4.9 */
+        ) {
           //playersInput[index].usedDoubleJump = false
           playerBody.friction = 0.9
           break
