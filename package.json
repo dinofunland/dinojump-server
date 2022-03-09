@@ -16,11 +16,11 @@
   "license": "The Unlicense",
   "dependencies": {
     "@colyseus/command": "^0.2.1",
-    "@colyseus/monitor": "^0.14.22",
-    "@colyseus/ws-transport": "^0.14.21",
+    "@colyseus/monitor": "^0.15.0-preview.1",
+    "@colyseus/ws-transport": "^0.15.0-preview.2",
     "@types/matter-js": "^0.17.7",
     "bignumber.js": "^9.0.2",
-    "colyseus": "^0.14.23",
+    "colyseus": "^0.15.0-preview.4",
     "dotenv": "^16.0.0",
     "express": "^4.17.3",
     "matter-js": "^0.18.0"
