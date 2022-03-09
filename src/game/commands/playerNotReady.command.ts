@@ -15,7 +15,7 @@ export class PlayerNotReadyCommand extends Command<
     logger('Player Ready', 'Command')
     if (this.state.gameStep != GameStep.LOBBY) return
     const player = this.state.players.get(payload.sessionId)
-    if (!player) throw 'player not found'
+    if (!player) return
     player.isReady = false
   }
 }

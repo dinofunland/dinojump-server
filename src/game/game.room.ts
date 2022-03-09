@@ -4,6 +4,7 @@ import logger from '../services/logger.services'
 import {
   GameSchema,
   PlatformSchema,
+  PlayerSkin,
   PositionSchema,
   SizeSchema,
 } from './game.state'
@@ -15,6 +16,7 @@ import { PlayerNotReadyCommand } from './commands/playerNotReady.command'
 import { PlayerMoveCommand } from './commands/playerMove.command'
 import { useGameWorld } from './game.world'
 import { PlayerJumpCommand } from './commands/playerJump.command'
+import { PlayerSetSkinCommand } from './commands/playerSetSkin.command'
 
 const LETTERS = '12345890ASDF'
 
@@ -117,7 +119,12 @@ export class GameRoom extends Room<GameSchema> {
     })
 
     this.onMessage('selectSkin', (client, message) => {
-      console.log('TODO: select skin')
+      const hasSkinValue = message?.skin && Object.values(PlayerSkin).includes(message?.skin) && typeof message?.skin == 'number' ? true : false
+      if(!hasSkinValue) return
+      this.dispatcher.dispatch(new PlayerSetSkinCommand(), {
+        sessionId: client.sessionId,
+        skin: message.skin
+      })
     })
 
     this.onMessage('*', (client, type, message) => {

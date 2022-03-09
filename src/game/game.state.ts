@@ -21,7 +21,8 @@ export enum PlatformType {
 export enum PlayerSkin {
   BLUE,
   GREEN,
-  YELLOW
+  YELLOW,
+  PURPLE
 }
 
 export class PositionSchema extends Schema {
