@@ -22,7 +22,7 @@ export enum PlayerSkin {
   BLUE,
   GREEN,
   YELLOW,
-  PURPLE
+  PURPLE,
 }
 
 export class PositionSchema extends Schema {

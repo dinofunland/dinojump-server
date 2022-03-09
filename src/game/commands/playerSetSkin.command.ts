@@ -14,7 +14,7 @@ export class PlayerSetSkinCommand extends Command<
 > {
   execute(payload: PlayerSetSkinPayload) {
     logger('Player Set Skin', 'Command')
-    
+
     const player = this.state.players.get(payload.sessionId)
     if (!player) return
     player.skin = payload.skin

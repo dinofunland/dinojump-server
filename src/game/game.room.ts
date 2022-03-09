@@ -119,11 +119,16 @@ export class GameRoom extends Room<GameSchema> {
     })
 
     this.onMessage('selectSkin', (client, message) => {
-      const hasSkinValue = message?.skin != undefined && Object.values(PlayerSkin).includes(message?.skin) && typeof message?.skin == 'number' ? true : false
-      if(!hasSkinValue) return
+      const hasSkinValue =
+        message?.skin != undefined &&
+        Object.values(PlayerSkin).includes(message?.skin) &&
+        typeof message?.skin == 'number'
+          ? true
+          : false
+      if (!hasSkinValue) return
       this.dispatcher.dispatch(new PlayerSetSkinCommand(), {
         sessionId: client.sessionId,
-        skin: message.skin
+        skin: message.skin,
       })
     })
 
