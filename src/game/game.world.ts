@@ -124,7 +124,6 @@ export function useGameWorld(schema: GameSchema) {
           break
         }
       }
-      console.log('player friction', playerBody.friction)
     })
 
     schema.platforms.forEach((platform) => {
