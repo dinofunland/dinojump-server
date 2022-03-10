@@ -83,6 +83,21 @@ export class PlayerSchema extends Schema {
   sync() {
     this.position.x = this.body.position.x
     this.position.y = invertNumber(this.body.position.y)
+
+    // animation handling
+    const velocityX = this.body.velocity.x
+    const velocityY = this.body.velocity.y
+    const isDancing = this.animation == PlayerAnimation.DANCE
+
+    if (velocityY < 0) {
+      this.animation = PlayerAnimation.JUMPING
+    } else if (velocityY > 0) {
+      this.animation = PlayerAnimation.FALLING
+    } else if (velocityX != 0) {
+      this.animation = PlayerAnimation.WALKING
+    } else if (velocityX == 0 && !isDancing) {
+      this.animation = PlayerAnimation.IDLE
+    }
   }
 }
 
