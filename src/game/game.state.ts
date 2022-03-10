@@ -30,7 +30,7 @@ export enum PlayerAnimation {
   WALKING,
   JUMPING,
   FALLING,
-  DANCE
+  DANCE,
 }
 
 export class PositionSchema extends Schema {
