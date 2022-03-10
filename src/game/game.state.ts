@@ -76,7 +76,7 @@ export class PlayerSchema extends Schema {
   @type(SizeSchema) size = new SizeSchema()
   @type(InputSchema) input = new InputSchema()
   @type('number') skin: PlayerSkin = PlayerSkin.BLUE
-  @type('string') animation: PlayerAnimation = PlayerAnimation.IDLE
+  @type('number') animation: PlayerAnimation = PlayerAnimation.IDLE
 
   body: Matter.Body
 
