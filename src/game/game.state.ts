@@ -25,6 +25,14 @@ export enum PlayerSkin {
   PURPLE,
 }
 
+export enum PlayerAnimation {
+  IDLE,
+  WALKING,
+  JUMPING,
+  FALLING,
+  DANCE
+}
+
 export class PositionSchema extends Schema {
   @type('number') x: number = 0
   @type('number') y: number = 0
@@ -68,6 +76,7 @@ export class PlayerSchema extends Schema {
   @type(SizeSchema) size = new SizeSchema()
   @type(InputSchema) input = new InputSchema()
   @type('number') skin: PlayerSkin = PlayerSkin.BLUE
+  @type('string') animation: PlayerAnimation = PlayerAnimation.IDLE
 
   body: Matter.Body
 
