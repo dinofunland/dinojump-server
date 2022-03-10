@@ -25,8 +25,8 @@ export class OnJoinCommand extends Command<GameRoom, OnJoinPayload> {
           y: spawnPosition.y,
         }),
         size: new SizeSchema().assign({
-          height: 5,
-          width: 10,
+          width: 5,
+          height: 10,
         }),
         body: this.room.gameWorld.addPlayer(
           spawnPosition.x,
