@@ -11,8 +11,8 @@ export class PlayerDanceCommand extends Command<GameRoom, PlayerDancePayload> {
   execute(payload: PlayerDancePayload) {
     logger('Player Dance', 'Command')
     const player = this.state.players.get(payload.sessionId)
-    if(player) {
-        player.animation = PlayerAnimation.DANCE
+    if (player) {
+      player.animation = PlayerAnimation.DANCE
     }
   }
 }
