@@ -17,6 +17,7 @@ import { PlayerMoveCommand } from './commands/playerMove.command'
 import { useGameWorld } from './game.world'
 import { PlayerJumpCommand } from './commands/playerJump.command'
 import { PlayerSetSkinCommand } from './commands/playerSetSkin.command'
+import { PlayerDanceCommand } from './commands/playerDance.command'
 
 const LETTERS = '12345890ASDF'
 
@@ -114,6 +115,12 @@ export class GameRoom extends Room<GameSchema> {
 
     this.onMessage('jump', (client, message) => {
       this.dispatcher.dispatch(new PlayerJumpCommand(), {
+        sessionId: client.sessionId,
+      })
+    })
+
+    this.onMessage('dance', (client, message) => {
+      this.dispatcher.dispatch(new PlayerDanceCommand(), {
         sessionId: client.sessionId,
       })
     })
