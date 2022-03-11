@@ -1,4 +1,5 @@
 import { Command } from '@colyseus/command'
+import Matter from 'matter-js'
 import logger from '../../services/logger.services'
 import { GameRoom } from '../game.room'
 import { GameStep } from '../game.state'
@@ -12,6 +13,9 @@ export class StartGameCommand extends Command<GameRoom, StartGamePayload> {
     if (this.state.gameStep != GameStep.LOBBY) return
     this.room.lock()
     this.state.gameStep = GameStep.STARTING
+    this.state.players.forEach((value) => {
+      Matter.Body.set(value.body, 'position', { x: 0, y: -10 })
+    })
 
     this.clock.setTimeout(() => {
       this.state.gameStep = GameStep.ONGOING
