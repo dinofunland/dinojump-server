@@ -107,6 +107,7 @@ export class GameSchema extends Schema {
   @type({ map: PlayerSchema }) players = new MapSchema<PlayerSchema>()
   @type({ map: PlatformSchema }) platforms = new MapSchema<PlatformSchema>()
   @type(FloorSchema) floor = new FloorSchema()
+  public floorSpeed: number = 2
 
   sync() {
     this.players.forEach((value) => {
@@ -115,5 +116,11 @@ export class GameSchema extends Schema {
     this.platforms.forEach((value) => {
       value.sync()
     })
+  }
+
+  update(deltaTime: number) {
+    if (this.gameStep == GameStep.ONGOING) {
+      this.floor.position.y += (deltaTime / 1000) * this.floorSpeed
+    }
   }
 }

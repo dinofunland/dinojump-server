@@ -188,8 +188,6 @@ export class GameRoom extends Room<GameSchema> {
 
   update(deltaTime: number) {
     this.state.sync()
-    if (this.state.gameStep == GameStep.ONGOING) {
-      this.state.floor.position.y += deltaTime / 1000
-    }
+    this.state.update(deltaTime)
   }
 }
