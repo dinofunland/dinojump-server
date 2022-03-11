@@ -8,12 +8,9 @@ import {
   PositionSchema,
   SizeSchema,
 } from '../game.state'
+import { SpawnPlatformCommand } from './spawnPlatform.command'
 
 interface ResetGamePayload {}
-
-const getRndInteger = (min: number, max: number) => {
-  return Math.floor(Math.random() * (max - min)) + min
-}
 
 export class ResetGameCommand extends Command<GameRoom, ResetGamePayload> {
   execute(payload: ResetGamePayload) {
@@ -31,26 +28,7 @@ export class ResetGameCommand extends Command<GameRoom, ResetGamePayload> {
 
     const generatePlatforms = (count: number) => {
       for (let i = 0; i < count; i++) {
-        const body = this.room.gameWorld.addPlatform(
-          getRndInteger(-60, 100),
-          -i * 35 + -30,
-          40,
-          5,
-        )
-        this.state.platforms.set(
-          `${body.position.x}${body.position.y}`,
-          new PlatformSchema().assign({
-            position: new PositionSchema().assign({
-              x: body.position.x,
-              y: body.position.y,
-            }),
-            size: new SizeSchema().assign({
-              width: 40,
-              height: 5,
-            }),
-            body: body,
-          }),
-        )
+        this.room.dispatcher.dispatch(new SpawnPlatformCommand())
       }
     }
     generatePlatforms(5)

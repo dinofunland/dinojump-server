@@ -1,7 +1,7 @@
 import { Schema, type, MapSchema } from '@colyseus/schema'
 import Matter from 'matter-js'
 
-const invertNumber = (i: number) => {
+export const invertNumber = (i: number) => {
   return i - i * 2
 }
 
