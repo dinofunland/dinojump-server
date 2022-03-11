@@ -107,7 +107,7 @@ export class GameSchema extends Schema {
   @type({ map: PlayerSchema }) players = new MapSchema<PlayerSchema>()
   @type({ map: PlatformSchema }) platforms = new MapSchema<PlatformSchema>()
   @type(FloorSchema) floor = new FloorSchema()
-  public floorSpeed: number = 2
+  public floorSpeed: number = 4
 
   sync() {
     this.players.forEach((value) => {
