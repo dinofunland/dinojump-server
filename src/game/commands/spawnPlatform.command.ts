@@ -17,11 +17,7 @@ const getRndInteger = (min: number, max: number) => {
   return Math.floor(Math.random() * (max - min)) + min
 }
 
-const spread = 30
-
-const minDistance = 20
-
-const maxDistance = 40
+const spread = 60
 
 export class SpawnPlatformCommand extends Command<
   GameRoom,
@@ -31,8 +27,7 @@ export class SpawnPlatformCommand extends Command<
     logger('Spawn Platform', 'Command')
     const highestPlatform = this.state.getHighestPlatform()
     const spawnPositionY = highestPlatform
-      ? highestPlatform.body.position.y -
-        getRndInteger(minDistance, maxDistance)
+      ? highestPlatform.body.position.y - 30
       : -35
     const body = this.room.gameWorld.addPlatform(
       getRndInteger(-spread, spread),
