@@ -3,6 +3,7 @@ import { Room, Client } from 'colyseus'
 import logger from '../services/logger.services'
 import {
   GameSchema,
+  GameStep,
   PlatformSchema,
   PlayerSkin,
   PositionSchema,
@@ -59,7 +60,6 @@ export class GameRoom extends Room<GameSchema> {
     this.setState(new GameSchema())
 
     this.gameWorld = useGameWorld(this.state)
-    
     this.setSimulationInterval((deltaTime) => this.update(deltaTime))
 
     const generatePlatforms = (count: number) => {
@@ -188,5 +188,8 @@ export class GameRoom extends Room<GameSchema> {
 
   update(deltaTime: number) {
     this.state.sync()
+    if (this.state.gameStep == GameStep.ONGOING) {
+      this.state.floor.position.y += deltaTime / 10
+    }
   }
 }
