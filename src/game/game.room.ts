@@ -3,11 +3,7 @@ import { Room, Client } from 'colyseus'
 import logger from '../services/logger.services'
 import {
   GameSchema,
-  GameStep,
-  PlatformSchema,
   PlayerSkin,
-  PositionSchema,
-  SizeSchema,
 } from './game.state'
 import { Dispatcher } from '@colyseus/command'
 import { OnJoinCommand } from './commands/onJoin.command'
@@ -19,12 +15,9 @@ import { useGameWorld } from './game.world'
 import { PlayerJumpCommand } from './commands/playerJump.command'
 import { PlayerSetSkinCommand } from './commands/playerSetSkin.command'
 import { PlayerDanceCommand } from './commands/playerDance.command'
+import { ResetGameCommand } from './commands/resetGame.command'
 
 const LETTERS = '12345890ASDF'
-
-const getRndInteger = (min: number, max: number) => {
-  return Math.floor(Math.random() * (max - min)) + min
-}
 
 export class GameRoom extends Room<GameSchema> {
   LOBBY_CHANNEL = '$mylobby'
@@ -62,32 +55,7 @@ export class GameRoom extends Room<GameSchema> {
     this.gameWorld = useGameWorld(this.state)
     this.setSimulationInterval((deltaTime) => this.update(deltaTime))
 
-    const generatePlatforms = (count: number) => {
-      for (let i = 0; i < count; i++) {
-        const body = this.gameWorld.addPlatform(
-          getRndInteger(-60, 100),
-          -i * 35 + -30,
-          40,
-          5,
-        )
-        this.state.platforms.set(
-          `${body.position.x}${body.position.y}`,
-          new PlatformSchema().assign({
-            position: new PositionSchema().assign({
-              x: body.position.x,
-              y: body.position.y,
-            }),
-            size: new SizeSchema().assign({
-              width: 40,
-              height: 5,
-            }),
-            body: body,
-          }),
-        )
-      }
-    }
-
-    generatePlatforms(100)
+    this.dispatcher.dispatch(new ResetGameCommand())
 
     logger(`onCreate ${this.roomName} ${this.roomId}`, 'GameRoom')
 
