@@ -19,7 +19,7 @@ const getRndInteger = (min: number, max: number) => {
 
 const spread = 30
 
-const minDistance = 10
+const minDistance = 20
 
 const maxDistance = 40
 
