@@ -1,10 +1,7 @@
 import http from 'http'
 import { Room, Client } from 'colyseus'
 import logger from '../services/logger.services'
-import {
-  GameSchema,
-  PlayerSkin,
-} from './game.state'
+import { GameSchema, PlayerSkin } from './game.state'
 import { Dispatcher } from '@colyseus/command'
 import { OnJoinCommand } from './commands/onJoin.command'
 import { OnLeaveCommand } from './commands/onLeave.command'
