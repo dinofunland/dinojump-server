@@ -25,14 +25,6 @@ export class ResetGameCommand extends Command<GameRoom, ResetGamePayload> {
     })
     this.state.floor.position.y = -20
     this.state.gameStep = GameStep.LOBBY
-
-    const generatePlatforms = (count: number) => {
-      for (let i = 0; i < count; i++) {
-        this.room.dispatcher.dispatch(new SpawnPlatformCommand())
-      }
-    }
-    generatePlatforms(5)
-
     this.room.unlock()
   }
 }
