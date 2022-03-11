@@ -59,6 +59,8 @@ export class GameRoom extends Room<GameSchema> {
     this.setState(new GameSchema())
 
     this.gameWorld = useGameWorld(this.state)
+    
+    this.setSimulationInterval((deltaTime) => this.update(deltaTime))
 
     const generatePlatforms = (count: number) => {
       for (let i = 0; i < count; i++) {
@@ -86,7 +88,6 @@ export class GameRoom extends Room<GameSchema> {
     }
 
     generatePlatforms(100)
-    this.setSimulationInterval((deltaTime) => this.update(deltaTime))
 
     logger(`onCreate ${this.roomName} ${this.roomId}`, 'GameRoom')
 
