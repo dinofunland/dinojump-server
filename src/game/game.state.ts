@@ -109,6 +109,22 @@ export class GameSchema extends Schema {
   @type(FloorSchema) floor = new FloorSchema()
   public floorSpeed: number = 4
 
+  getHighestPlatform = (): PlatformSchema => {
+    const arrayPlatforms = Array.from(this.platforms.values())
+    if (!arrayPlatforms.length) return null
+    return arrayPlatforms.reduce((max, platform) =>
+      max.body.position.y < platform.body.position.y ? max : platform,
+    )
+  }
+
+  getHighestPlayer = (): PlayerSchema => {
+    const arrayPlayers = Array.from(this.players.values())
+    if (!arrayPlayers.length) return null
+    return arrayPlayers.reduce((max, player) =>
+      max.body.position.y < player.body.position.y ? max : player,
+    )
+  }
+
   sync() {
     this.players.forEach((value) => {
       value.sync()

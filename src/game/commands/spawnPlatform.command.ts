@@ -17,16 +17,6 @@ const getRndInteger = (min: number, max: number) => {
   return Math.floor(Math.random() * (max - min)) + min
 }
 
-const getHighestPlatform = (
-  platforms: MapSchema<PlatformSchema>,
-): PlatformSchema => {
-  const arrayPlatforms = Array.from(platforms.values())
-  if (!arrayPlatforms.length) return null
-  return arrayPlatforms.reduce((max, platform) =>
-    max.body.position.y < platform.body.position.y ? max : platform,
-  )
-}
-
 const spread = 30
 
 export class SpawnPlatformCommand extends Command<
@@ -35,7 +25,7 @@ export class SpawnPlatformCommand extends Command<
 > {
   execute(payload: SpawnPlatformPayload) {
     logger('Spawn Platform', 'Command')
-    const highestPlatform = getHighestPlatform(this.state.platforms)
+    const highestPlatform = this.state.getHighestPlatform()
     const spawnPositionY = highestPlatform
       ? highestPlatform.body.position.y - 35
       : -35

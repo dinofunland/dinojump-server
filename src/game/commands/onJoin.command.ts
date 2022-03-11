@@ -1,7 +1,12 @@
 import { Command } from '@colyseus/command'
 import logger from '../../services/logger.services'
 import { GameRoom } from '../game.room'
-import { PlayerSchema, PositionSchema, SizeSchema } from '../game.state'
+import {
+  invertNumber,
+  PlayerSchema,
+  PositionSchema,
+  SizeSchema,
+} from '../game.state'
 
 interface OnJoinPayload {
   sessionId: string
@@ -22,7 +27,7 @@ export class OnJoinCommand extends Command<GameRoom, OnJoinPayload> {
         username: payload.username || 'No Name',
         position: new PositionSchema().assign({
           x: spawnPosition.x,
-          y: spawnPosition.y,
+          y: invertNumber(spawnPosition.y),
         }),
         size: new SizeSchema().assign({
           width: 5,

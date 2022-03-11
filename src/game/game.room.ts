@@ -1,7 +1,7 @@
 import http from 'http'
 import { Room, Client } from 'colyseus'
 import logger from '../services/logger.services'
-import { GameSchema, PlayerSkin } from './game.state'
+import { GameSchema, GameStep, PlayerSkin } from './game.state'
 import { Dispatcher } from '@colyseus/command'
 import { OnJoinCommand } from './commands/onJoin.command'
 import { OnLeaveCommand } from './commands/onLeave.command'
@@ -13,6 +13,7 @@ import { PlayerJumpCommand } from './commands/playerJump.command'
 import { PlayerSetSkinCommand } from './commands/playerSetSkin.command'
 import { PlayerDanceCommand } from './commands/playerDance.command'
 import { ResetGameCommand } from './commands/resetGame.command'
+import { SpawnPlatformCommand } from './commands/spawnPlatform.command'
 
 const LETTERS = '12345890ASDF'
 
@@ -154,5 +155,26 @@ export class GameRoom extends Room<GameSchema> {
   update(deltaTime: number) {
     this.state.sync()
     this.state.update(deltaTime)
+
+    const maxDistanceToLastPlatform = 200
+
+    if (
+      this.state.gameStep != GameStep.STARTING &&
+      this.state.gameStep != GameStep.ENDED
+    ) {
+      const highestPlatform = this.state.getHighestPlatform()
+      const highestPlayer = this.state.getHighestPlayer()
+      if (highestPlayer) {
+        if (!highestPlatform) {
+          this.dispatcher.dispatch(new SpawnPlatformCommand())
+        } else {
+          const distanceToHighestPlatform =
+            highestPlayer.body.position.y - highestPlatform.body.position.y
+          if (distanceToHighestPlatform < maxDistanceToLastPlatform) {
+            this.dispatcher.dispatch(new SpawnPlatformCommand())
+          }
+        }
+      }
+    }
   }
 }
