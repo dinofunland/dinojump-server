@@ -58,7 +58,7 @@ export class PlatformSchema extends Schema {
 
 export class FloorSchema extends Schema {
   @type(PositionSchema) position = new PositionSchema().assign({
-    y: -5,
+    y: -20,
   })
   @type(SizeSchema) size = new SizeSchema()
 }
