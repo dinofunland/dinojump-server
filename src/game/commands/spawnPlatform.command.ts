@@ -27,6 +27,8 @@ const getHighestPlatform = (
   )
 }
 
+const spread = 30
+
 export class SpawnPlatformCommand extends Command<
   GameRoom,
   SpawnPlatformPayload
@@ -38,7 +40,7 @@ export class SpawnPlatformCommand extends Command<
       ? highestPlatform.body.position.y - 35
       : -35
     const body = this.room.gameWorld.addPlatform(
-      getRndInteger(-60, 100),
+      getRndInteger(-spread, spread),
       spawnPositionY,
       40,
       5,
