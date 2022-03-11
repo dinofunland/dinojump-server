@@ -12,7 +12,7 @@ export class ResetGameCommand extends Command<GameRoom, ResetGamePayload> {
     this.state.players.forEach((value) => {
       value.isReady = false
       value.body.position.x = 0
-      value.body.position.y = 1
+      value.body.position.y = -10
     })
     this.state.gameStep = GameStep.LOBBY
     this.room.unlock()
