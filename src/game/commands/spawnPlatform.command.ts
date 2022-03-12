@@ -28,7 +28,7 @@ export class SpawnPlatformCommand extends Command<
     const highestPlatform = this.state.getHighestPlatform()
     const spawnPositionY = highestPlatform
       ? highestPlatform.body.position.y - 30
-      : -35
+      : -25
     const body = this.room.gameWorld.addPlatform(
       getRndInteger(-spread, spread),
       spawnPositionY,
