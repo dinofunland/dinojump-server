@@ -20,7 +20,8 @@ export interface useGameWorld {
     width: number,
     height: number,
   ) => Matter.Body
-  ground: Matter.Body
+  ground: Matter.Body,
+  destory: () => void
 }
 
 export function useGameWorld(schema: GameSchema) {
@@ -73,7 +74,9 @@ export function useGameWorld(schema: GameSchema) {
   const ground = createGround()
   Matter.Composite.add(engine.world, ground)
 
-  const runner = Matter.Runner.create()
+  const runner = Matter.Runner.create({
+    isFixed: true
+  })
 
   // run the engine
   Matter.Runner.run(runner, engine)
@@ -89,7 +92,8 @@ export function useGameWorld(schema: GameSchema) {
     })
   })
 
-  Matter.Events.on(runner, 'afterTick', (e) => {
+  Matter.Events.on(runner, 'beforeUpdate', (e) => {
+    console.log(e)
     const platforms: Matter.Body[] = Array.from(schema.platforms.values()).map(
       (value) => value.body,
     )
@@ -145,6 +149,12 @@ export function useGameWorld(schema: GameSchema) {
     })
   })
 
+  const destory = () => {
+    Matter.World.clear(engine.world, false)
+    Matter.Engine.clear(engine)
+    Matter.Runner.stop(runner)
+  }
+
   return {
     engine,
     runner,
@@ -152,5 +162,6 @@ export function useGameWorld(schema: GameSchema) {
     addPlayer,
     addPlatform,
     ground,
+    destory
   }
 }

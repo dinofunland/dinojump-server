@@ -148,6 +148,7 @@ export class GameRoom extends Room<GameSchema> {
 
   onDispose() {
     this.dispatcher.stop()
+    this.gameWorld.destory()
     this.presence.srem(this.LOBBY_CHANNEL, this.roomId)
     logger(`onDispose ${this.roomName} ${this.roomId}`, 'GameRoom')
   }
