@@ -20,7 +20,7 @@ export interface useGameWorld {
     width: number,
     height: number,
   ) => Matter.Body
-  ground: Matter.Body,
+  ground: Matter.Body
   destory: () => void
 }
 
@@ -75,7 +75,7 @@ export function useGameWorld(schema: GameSchema) {
   Matter.Composite.add(engine.world, ground)
 
   const runner = Matter.Runner.create({
-    isFixed: true
+    isFixed: true,
   })
 
   // run the engine
@@ -162,6 +162,6 @@ export function useGameWorld(schema: GameSchema) {
     addPlayer,
     addPlatform,
     ground,
-    destory
+    destory,
   }
 }
