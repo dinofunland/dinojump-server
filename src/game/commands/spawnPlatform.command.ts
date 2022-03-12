@@ -17,7 +17,7 @@ const getRndInteger = (min: number, max: number) => {
   return Math.floor(Math.random() * (max - min)) + min
 }
 
-const spread = 60
+const spread = 45
 
 export class SpawnPlatformCommand extends Command<
   GameRoom,
