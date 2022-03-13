@@ -147,7 +147,7 @@ export class GameSchema extends Schema {
       this.floor.position.y += (deltaTime / 1000) * this.floorSpeed
 
       const highestPlayer = this.getHighestPlayer()
-      if(highestPlayer) {
+      if (highestPlayer) {
         this.score = Math.floor(highestPlayer.position.y)
       }
     }
