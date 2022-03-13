@@ -66,14 +66,16 @@ export function useGameWorld(schema: GameSchema) {
     const y = 5
     const width = 1000
     const height = 10
-    const body = Matter.Bodies.rectangle(x, y, width, height, { isStatic: true })
+    const body = Matter.Bodies.rectangle(x, y, width, height, {
+      isStatic: true,
+    })
     schema.ground.position.assign({
       x: x,
-      y: y
+      y: y,
     })
     schema.ground.size.assign({
       width: width,
-      height: height
+      height: height,
     })
     Matter.Composite.add(engine.world, body)
     return body
