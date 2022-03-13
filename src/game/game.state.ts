@@ -1,9 +1,6 @@
 import { Schema, type, MapSchema } from '@colyseus/schema'
 import Matter from 'matter-js'
-
-export const invertNumber = (i: number) => {
-  return i - i * 2
-}
+import { invertNumber } from '../utility/invertNumber'
 
 export enum GameStep {
   LOBBY = 'Lobby',
