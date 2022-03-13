@@ -60,7 +60,6 @@ export class FloorSchema extends Schema {
   @type(PositionSchema) position = new PositionSchema().assign({
     y: -20,
   })
-  @type(SizeSchema) size = new SizeSchema()
 }
 
 export class InputSchema extends Schema {
@@ -101,12 +100,20 @@ export class PlayerSchema extends Schema {
   }
 }
 
+export class GroundSchema extends Schema {
+  @type(PositionSchema) position = new PositionSchema().assign({
+    y: 0,
+  })
+  @type(SizeSchema) size = new SizeSchema()
+}
+
 export class GameSchema extends Schema {
   @type('string') gameStep: GameStep = GameStep.LOBBY
   @type('number') gameSpeed = 1
   @type({ map: PlayerSchema }) players = new MapSchema<PlayerSchema>()
   @type({ map: PlatformSchema }) platforms = new MapSchema<PlatformSchema>()
   @type(FloorSchema) floor = new FloorSchema()
+  @type(GroundSchema) ground = new GroundSchema()
   public floorSpeed: number = 4
 
   getHighestPlatform = (): PlatformSchema => {
