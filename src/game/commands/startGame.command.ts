@@ -19,10 +19,6 @@ export class StartGameCommand extends Command<GameRoom, StartGamePayload> {
 
     this.clock.setTimeout(() => {
       this.state.gameStep = GameStep.ONGOING
-
-      this.clock.setTimeout(() => {
-        this.room.dispatcher.dispatch(new EndGameCommand())
-      }, 10_000)
     }, 5_000)
   }
 }

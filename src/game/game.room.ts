@@ -14,6 +14,7 @@ import { PlayerSetSkinCommand } from './commands/playerSetSkin.command'
 import { PlayerDanceCommand } from './commands/playerDance.command'
 import { ResetGameCommand } from './commands/resetGame.command'
 import { SpawnPlatformCommand } from './commands/spawnPlatform.command'
+import { EndGameCommand } from './commands/endGame.command'
 
 const LETTERS = '12345890ASDF'
 
@@ -176,6 +177,17 @@ export class GameRoom extends Room<GameSchema> {
           }
         }
       }
+    }
+
+    if (this.state.gameStep == GameStep.ONGOING) {
+      // end game if any player is below lave
+      this.state.players.forEach((player) => {
+        console.log('player', player.position.y)
+        console.log('floor', this.state.floor.position.y)
+        if (player.position.y < this.state.floor.position.y) {
+          this.dispatcher.dispatch(new EndGameCommand())
+        }
+      })
     }
   }
 }

@@ -107,7 +107,6 @@ export function useGameWorld(schema: GameSchema) {
   })
 
   Matter.Events.on(runner, 'beforeUpdate', (e) => {
-    console.log(e)
     const platforms: Matter.Body[] = Array.from(schema.platforms.values()).map(
       (value) => value.body,
     )
