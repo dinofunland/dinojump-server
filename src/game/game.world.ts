@@ -64,7 +64,7 @@ export function useGameWorld(schema: GameSchema) {
   const createGround = (): Matter.Body => {
     const x = 0
     const y = 5
-    const width = 1000
+    const width = 500
     const height = 10
     const body = Matter.Bodies.rectangle(x, y, width, height, {
       isStatic: true,
@@ -158,6 +158,28 @@ export function useGameWorld(schema: GameSchema) {
           x: platformBody.position.x + px,
           y: platformBody.position.y,
         })
+      }
+    })
+
+    // reset players if they get out of bounds
+    const boundDistance = schema.ground.size.width / 2 - 5
+    schema.players.forEach((player) => {
+      const playerX = player.body.position.x
+      const isPlayerToFarLeft = playerX < -boundDistance
+      if (isPlayerToFarLeft) {
+        Matter.Body.setPosition(player.body, {
+          x: -boundDistance,
+          y: player.body.position.y,
+        })
+        return
+      }
+      const isPlayerToFarRight = playerX > boundDistance
+      if (isPlayerToFarRight) {
+        Matter.Body.setPosition(player.body, {
+          x: boundDistance,
+          y: player.body.position.y,
+        })
+        return
       }
     })
   })
