@@ -64,7 +64,7 @@ export function useGameWorld(schema: GameSchema) {
   const createGround = (): Matter.Body => {
     const x = 0
     const y = 5
-    const width = 500
+    const width = 200
     const height = 10
     const body = Matter.Bodies.rectangle(x, y, width, height, {
       isStatic: true,
