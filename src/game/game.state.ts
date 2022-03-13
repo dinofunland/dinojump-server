@@ -114,6 +114,7 @@ export class GameSchema extends Schema {
   @type({ map: PlatformSchema }) platforms = new MapSchema<PlatformSchema>()
   @type(FloorSchema) floor = new FloorSchema()
   @type(GroundSchema) ground = new GroundSchema()
+  @type('number') score = 0
   public floorSpeed: number = 4
 
   getHighestPlatform = (): PlatformSchema => {
@@ -144,6 +145,11 @@ export class GameSchema extends Schema {
   update(deltaTime: number) {
     if (this.gameStep == GameStep.ONGOING) {
       this.floor.position.y += (deltaTime / 1000) * this.floorSpeed
+
+      const highestPlayer = this.getHighestPlayer()
+      if(highestPlayer) {
+        this.score = Math.floor(highestPlayer.position.y)
+      }
     }
   }
 }

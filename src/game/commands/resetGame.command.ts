@@ -23,6 +23,7 @@ export class ResetGameCommand extends Command<GameRoom, ResetGamePayload> {
       Matter.Body.set(value.body, 'position', { x: 0, y: -10 })
     })
     this.state.floor.position.y = -20
+    this.state.score = 0
     this.state.gameStep = GameStep.LOBBY
     this.room.unlock()
   }
