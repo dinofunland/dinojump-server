@@ -14,21 +14,30 @@ export class PlayerJumpCommand extends Command<GameRoom, PlayerJumpPayload> {
 
     const gameWorld = this.room.gameWorld
     if (gameWorld && player) {
-      const powerJump = 5
       const platforms = Array.from(this.room.state.platforms.values()).map(
         (value) => value.body,
       )
+      const jump = () => {
+        Matter.Body.setVelocity(player.body, {
+          x: player.body.velocity.x,
+          y: -player.jumpPower,
+        })
+      }
+      let isGrounded = false
+
       for (let platform of [gameWorld.ground, ...platforms]) {
-        const isCollidingWithPlatform = Matter.SAT.collides(
-          platform,
-          player.body,
-        )
-        if (isCollidingWithPlatform) {
-          Matter.Body.setVelocity(player.body, {
-            x: player.body.velocity.x,
-            y: -powerJump,
-          })
+        const collision = Matter.SAT.collides(platform, player.body)
+        if (collision) {
+          isGrounded = true
+          break
         }
+      }
+
+      if (isGrounded) {
+        jump()
+      } else if (!isGrounded && player.extraJumpsUsed < player.extraJumps) {
+        jump()
+        player.extraJumpsUsed = player.extraJumpsUsed + 1
       }
     }
   }

@@ -111,20 +111,19 @@ export function useGameWorld(schema: GameSchema) {
       (value) => value.body,
     )
     const floors: Matter.Body[] = [ground, ...platforms]
-    const power = 2
     schema.players.forEach((player) => {
       const playerBody = player.body
       // player input handling
       if (player.input.left != player.input.right) {
         if (player.input.left) {
           Matter.Body.setVelocity(playerBody, {
-            x: -power,
+            x: -player.moveSpeed,
             y: playerBody.velocity.y,
           })
         }
         if (player.input.right) {
           Matter.Body.setVelocity(playerBody, {
-            x: power,
+            x: player.moveSpeed,
             y: playerBody.velocity.y,
           })
         }
@@ -138,6 +137,7 @@ export function useGameWorld(schema: GameSchema) {
         if (
           doesCollide?.collided /* && floor.position.y - 2.5 > player.position.y + 4.9 */
         ) {
+          player.extraJumpsUsed = 0
           //playersInput[index].usedDoubleJump = false
           playerBody.friction = 0.9
           break
