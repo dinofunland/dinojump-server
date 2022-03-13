@@ -16,7 +16,7 @@ interface ResetGamePayload {}
 export class ResetGameCommand extends Command<GameRoom, ResetGamePayload> {
   execute(payload: ResetGamePayload) {
     logger('Reset Game', 'Command')
-    this.room.dispatcher.dispatch(new RemoveAllPlatformsCommand())
+    // this.room.dispatcher.dispatch(new RemoveAllPlatformsCommand())
     // TODO: RESET GAME world
     this.state.players.forEach((value) => {
       value.isReady = false
