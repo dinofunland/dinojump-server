@@ -1,6 +1,7 @@
 import { Schema, type, MapSchema } from '@colyseus/schema'
 import Matter from 'matter-js'
 import { invertNumber } from '../utility/invertNumber'
+import { lerp } from '../utility/lerp'
 
 export enum GameStep {
   LOBBY = 'Lobby',
@@ -113,6 +114,7 @@ export class GameSchema extends Schema {
   @type(GroundSchema) ground = new GroundSchema()
   @type('number') score = 0
   public floorSpeed: number = 4
+  public maxFloorDistance: number = 100
 
   getHighestPlatform = (): PlatformSchema => {
     const arrayPlatforms = Array.from(this.platforms.values())
@@ -146,6 +148,16 @@ export class GameSchema extends Schema {
       const highestPlayer = this.getHighestPlayer()
       if (highestPlayer) {
         this.score = Math.floor(highestPlayer.position.y)
+        const isLavaToFarAway =
+          this.maxFloorDistance <
+          highestPlayer.position.y - this.floor.position.y
+        if (isLavaToFarAway) {
+          this.floor.position.y = lerp(
+            this.floor.position.y,
+            highestPlayer.position.y - this.maxFloorDistance,
+            0.01,
+          )
+        }
       }
     }
   }

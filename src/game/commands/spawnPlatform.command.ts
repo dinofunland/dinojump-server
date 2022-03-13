@@ -1,13 +1,9 @@
 import { Command } from '@colyseus/command'
 import { MapSchema } from '@colyseus/schema'
 import logger from '../../services/logger.services'
+import { invertNumber } from '../../utility/invertNumber'
 import { GameRoom } from '../game.room'
-import {
-  invertNumber,
-  PlatformSchema,
-  PositionSchema,
-  SizeSchema,
-} from '../game.state'
+import { PlatformSchema, PositionSchema, SizeSchema } from '../game.state'
 
 interface SpawnPlatformPayload {
   sessionId: string
