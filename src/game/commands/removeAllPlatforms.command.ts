@@ -12,7 +12,7 @@ export class RemoveAllPlatformsCommand extends Command<
 > {
   execute(payload: RemoveAllPlatformsPayload) {
     logger('Remove All Platforms', 'Command')
-    this.state.platforms.forEach(value => {
+    this.state.platforms.forEach((value) => {
       this.room.gameWorld.removeBody(value.body)
     })
     this.state.platforms.clear()
