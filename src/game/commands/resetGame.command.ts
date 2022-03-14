@@ -9,6 +9,7 @@ import {
   SizeSchema,
 } from '../game.state'
 import { RemoveAllPlatformsCommand } from './removeAllPlatforms.command'
+import { ResetPlayersCommand } from './resetPlayers.command'
 import { SpawnPlatformCommand } from './spawnPlatform.command'
 
 interface ResetGamePayload {}
@@ -18,10 +19,7 @@ export class ResetGameCommand extends Command<GameRoom, ResetGamePayload> {
     logger('Reset Game', 'Command')
     // this.room.dispatcher.dispatch(new RemoveAllPlatformsCommand())
     // TODO: RESET GAME world
-    this.state.players.forEach((value) => {
-      value.isReady = false
-      Matter.Body.set(value.body, 'position', { x: 0, y: -10 })
-    })
+    this.room.dispatcher.dispatch(new ResetPlayersCommand())
     this.state.floor.position.y = -20
     this.state.score = 0
     this.state.gameStep = GameStep.LOBBY
