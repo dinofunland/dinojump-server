@@ -158,7 +158,10 @@ export class GameSchema extends Schema {
 
       const highestPlayer = this.getHighestPlayer()
       if (highestPlayer) {
-        this.score = Math.floor(highestPlayer.position.y)
+        this.score =
+          Math.floor(highestPlayer.position.y) > this.score
+            ? Math.floor(highestPlayer.position.y / 10) * 10
+            : this.score
         const isLavaToFarAway =
           this.maxFloorDistance <
           highestPlayer.position.y - this.floor.position.y
