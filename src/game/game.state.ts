@@ -150,7 +150,7 @@ export class GameSchema extends Schema {
   update(deltaTime: number) {
     if (this.gameStep == GameStep.ONGOING) {
       const floorSpeed = clamp(
-        this.floor.position.y / 10,
+        this.floor.position.y / 50,
         this.minFloorSpeed,
         this.maxFloorSpeed,
       )
