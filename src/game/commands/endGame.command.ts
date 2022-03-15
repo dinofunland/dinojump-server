@@ -15,6 +15,6 @@ export class EndGameCommand extends Command<GameRoom, EndGamePayload> {
 
     this.clock.setTimeout(() => {
       this.room.dispatcher.dispatch(new ResetGameCommand())
-    }, 10_000)
+    }, 5_000)
   }
 }
