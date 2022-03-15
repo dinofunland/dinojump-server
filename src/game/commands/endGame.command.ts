@@ -11,6 +11,7 @@ export class EndGameCommand extends Command<GameRoom, EndGamePayload> {
     logger('End Game', 'Command')
     if (this.state.gameStep != GameStep.ONGOING) return
     this.state.gameStep = GameStep.ENDED
+    this.room.gameWorld.runner.enabled = false
 
     this.clock.setTimeout(() => {
       this.room.dispatcher.dispatch(new ResetGameCommand())
