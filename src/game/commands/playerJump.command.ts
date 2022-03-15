@@ -2,6 +2,7 @@ import { Command } from '@colyseus/command'
 import * as Matter from 'matter-js'
 import logger from '../../services/logger.services'
 import { GameRoom } from '../game.room'
+import { GameStep } from '../game.state'
 
 interface PlayerJumpPayload {
   sessionId: string
@@ -10,6 +11,10 @@ interface PlayerJumpPayload {
 export class PlayerJumpCommand extends Command<GameRoom, PlayerJumpPayload> {
   execute(payload: PlayerJumpPayload) {
     logger('Player Jump', 'Command')
+    const isGameStarting = this.state.gameStep == GameStep.STARTING
+    const hasGameEnded = this.state.gameStep == GameStep.ENDED
+    if (isGameStarting || hasGameEnded) return
+
     const player = this.state.players.get(payload.sessionId)
 
     const gameWorld = this.room.gameWorld
