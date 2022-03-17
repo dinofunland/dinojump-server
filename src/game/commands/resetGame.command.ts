@@ -1,9 +1,7 @@
 import { Command } from '@colyseus/command'
 import logger from '../../services/logger.services'
 import { GameRoom } from '../game.room'
-import {
-  GameStep,
-} from '../game.state'
+import { GameStep } from '../game.state'
 import { RemoveAllPlatformsCommand } from './removeAllPlatforms.command'
 import { ResetPlayersCommand } from './resetPlayers.command'
 
