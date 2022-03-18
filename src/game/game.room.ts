@@ -15,6 +15,7 @@ import { PlayerDanceCommand } from './commands/playerDance.command'
 import { ResetGameCommand } from './commands/resetGame.command'
 import { SpawnPlatformCommand } from './commands/spawnPlatform.command'
 import { EndGameCommand } from './commands/endGame.command'
+import { RemovePlatformCommand } from './commands/removePlatform'
 
 const LETTERS = '12345890ASDF'
 
@@ -184,6 +185,14 @@ export class GameRoom extends Room<GameSchema> {
       this.state.players.forEach((player) => {
         if (player.position.y < this.state.floor.position.y) {
           this.dispatcher.dispatch(new EndGameCommand())
+        }
+      })
+
+      this.state.platforms.forEach((platform, key) => {
+        if (platform.position.y < this.state.floor.position.y) {
+          this.dispatcher.dispatch(new RemovePlatformCommand(), {
+            id: key,
+          })
         }
       })
     }
