@@ -189,7 +189,7 @@ export class GameRoom extends Room<GameSchema> {
       })
 
       this.state.platforms.forEach((platform, key) => {
-        if (platform.position.y < this.state.floor.position.y) {
+        if (platform.position.y < this.state.floor.position.y - 5) {
           this.dispatcher.dispatch(new RemovePlatformCommand(), {
             id: key,
           })
