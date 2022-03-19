@@ -75,6 +75,7 @@ export class PlayerSchema extends Schema {
   @type(InputSchema) input = new InputSchema()
   @type('uint16') skin: PlayerSkin = PlayerSkin.BLUE
   @type('uint16') animation: PlayerAnimation = PlayerAnimation.IDLE
+  @type('boolean') isDead: boolean = false
   moveSpeed: number = 2
   jumpPower: number = 5
   extraJumps: number = 1
