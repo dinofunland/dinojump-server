@@ -11,13 +11,14 @@ export class ResetPlayersCommand extends Command<
 > {
   execute(payload: ResetPlayersPayload) {
     logger('Reset Players', 'Command')
-    this.state.players.forEach((value) => {
-      value.isReady = false
-      Matter.Body.setPosition(value.body, { x: 0, y: -10 })
-      Matter.Body.setVelocity(value.body, {
+    this.state.players.forEach((player) => {
+      player.isReady = false
+      Matter.Body.setPosition(player.body, { x: 0, y: -10 })
+      Matter.Body.setVelocity(player.body, {
         x: 0,
         y: 0,
       })
+      player.isDead = false
     })
   }
 }

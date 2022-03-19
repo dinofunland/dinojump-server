@@ -181,12 +181,20 @@ export class GameRoom extends Room<GameSchema> {
     }
 
     if (this.state.gameStep == GameStep.ONGOING) {
-      // end game if any player is below lave
+      // kill any player which is below lava
       this.state.players.forEach((player) => {
         if (player.position.y < this.state.floor.position.y) {
-          this.dispatcher.dispatch(new EndGameCommand())
+          player.isDead = true
         }
       })
+
+      // end game if any player is dead
+      for (let [key, player] of this.state.players.entries()) {
+        if (player.isDead) {
+          this.dispatcher.dispatch(new EndGameCommand())
+          break
+        }
+      }
 
       this.state.platforms.forEach((platform, key) => {
         if (platform.position.y < this.state.floor.position.y - 5) {
