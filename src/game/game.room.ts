@@ -137,11 +137,9 @@ export class GameRoom extends Room<GameSchema> {
   }
 
   onLeave(client: Client, consented: boolean) {
-    if (consented) {
-      this.dispatcher.dispatch(new OnLeaveCommand(), {
-        sessionId: client.sessionId,
-      })
-    }
+    this.dispatcher.dispatch(new OnLeaveCommand(), {
+      sessionId: client.sessionId,
+    })
     logger(
       `onLeave Client with sessionId: ${client.sessionId} consented: ${consented}`,
       'GameRoom',
