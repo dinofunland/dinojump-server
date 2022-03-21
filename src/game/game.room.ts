@@ -158,11 +158,9 @@ export class GameRoom extends Room<GameSchema> {
     this.state.update(deltaTime)
 
     const maxDistanceToLastPlatform = 200
-
-    if (
-      this.state.gameStep != GameStep.STARTING &&
-      this.state.gameStep != GameStep.ENDED
-    ) {
+    const isGameStarting = this.state.gameStep == GameStep.STARTING
+    const hasGameEnded = this.state.gameStep == GameStep.ENDED
+    if (!isGameStarting && !hasGameEnded) {
       const highestPlatform = this.state.getHighestPlatform()
       const highestPlayer = this.state.getHighestPlayer()
       if (highestPlayer) {
@@ -178,7 +176,9 @@ export class GameRoom extends Room<GameSchema> {
       }
     }
 
-    if (this.state.gameStep == GameStep.ONGOING) {
+    const isGameOngoing = this.state.gameStep == GameStep.ONGOING
+
+    if (isGameOngoing) {
       // kill any player which is below lava
       this.state.players.forEach((player) => {
         if (player.position.y < this.state.floor.position.y) {
