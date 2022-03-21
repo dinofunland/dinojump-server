@@ -17,12 +17,41 @@ const getRndInteger = (min: number, max: number) => {
   return Math.floor(Math.random() * (max - min)) + min
 }
 
-const spawnRatePlatformStatic = 20
-const spawnRatePlatformFalling = 1
-const spawnRatePlatformMoving = 3
+const spawnRates: {
+  spawnRate: number
+  type: PlatformType
+}[] = [
+  {
+    spawnRate: 20,
+    type: PlatformType.STATIC,
+  },
+  {
+    spawnRate: 3,
+    type: PlatformType.MOVING,
+  },
+  {
+    spawnRate: 1,
+    type: PlatformType.FALLING,
+  },
+]
 
 const getRandomPlatformType = (): PlatformType => {
-  return PlatformType.STATIC
+  const totalSpawnRate = spawnRates.reduce(
+    (partialSum, obj) => partialSum + obj.spawnRate,
+    0,
+  )
+  const randomNumber = Math.floor(Math.random() * totalSpawnRate) + 1
+  let checkedIndex = 0
+  let rolledPlatformType = PlatformType.STATIC
+  for (let spawnRate of spawnRates) {
+    checkedIndex += spawnRate.spawnRate
+    const isRolledPlatformType = randomNumber < checkedIndex
+    if (isRolledPlatformType) {
+      rolledPlatformType = spawnRate.type
+      break
+    }
+  }
+  return rolledPlatformType
 }
 
 const spread = 80
