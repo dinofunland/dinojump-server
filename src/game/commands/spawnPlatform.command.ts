@@ -22,7 +22,7 @@ const spawnRates: {
   type: PlatformType
 }[] = [
   {
-    spawnRate: 20,
+    spawnRate: 40,
     type: PlatformType.STATIC,
   },
   {
