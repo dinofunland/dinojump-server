@@ -149,7 +149,7 @@ export function useGameWorld(schema: GameSchema) {
       const isMovingPlatform = platform.type == PlatformType.MOVING
       if (isMovingPlatform) {
         const platformBody = platform.body
-        var px = Math.sin(engine.timing.timestamp * 0.003) * 2
+        var px = Math.sin(engine.timing.timestamp * 0.003) * 1.1
         Matter.Body.setVelocity(platformBody, {
           x: px,
           y: platformBody.velocity.y,
@@ -157,6 +157,20 @@ export function useGameWorld(schema: GameSchema) {
         Matter.Body.setPosition(platformBody, {
           x: platformBody.position.x + px,
           y: platformBody.position.y,
+        })
+      }
+      const isFallingPlatform = platform.type == PlatformType.FALLING
+      if (isFallingPlatform) {
+        const platformBody = platform.body
+
+        var py = Math.sin(engine.timing.timestamp * 0.003) * 0.3
+        Matter.Body.setVelocity(platformBody, {
+          x: platformBody.velocity.x,
+          y: py,
+        })
+        Matter.Body.setPosition(platformBody, {
+          x: platformBody.position.x,
+          y: platformBody.position.y + py,
         })
       }
     })
