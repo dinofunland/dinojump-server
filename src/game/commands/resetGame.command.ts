@@ -4,6 +4,7 @@ import { GameRoom } from '../game.room'
 import { GameStep } from '../game.state'
 import { RemoveAllPlatformsCommand } from './removeAllPlatforms.command'
 import { ResetPlayersCommand } from './resetPlayers.command'
+import { SpawnPlatformCommand } from './spawnPlatform.command'
 
 interface ResetGamePayload {}
 
@@ -15,6 +16,9 @@ export class ResetGameCommand extends Command<GameRoom, ResetGamePayload> {
     this.state.floor.position.y = -20
     this.state.score = 0
     this.state.gameStep = GameStep.LOBBY
+    this.room.dispatcher.dispatch(new SpawnPlatformCommand())
+    this.room.dispatcher.dispatch(new SpawnPlatformCommand())
+    this.room.dispatcher.dispatch(new SpawnPlatformCommand())
     this.room.gameWorld.runner.enabled = true
     this.room.unlock()
   }
