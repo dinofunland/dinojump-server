@@ -159,7 +159,7 @@ export class GameRoom extends Room<GameSchema> {
 
     const maxDistanceToLastPlatform = 200
     const isGameOngoing = this.state.gameStep == GameStep.ONGOING
-    
+
     if (isGameOngoing) {
       const highestPlatform = this.state.getHighestPlatform()
       const highestPlayer = this.state.getHighestPlayer()
