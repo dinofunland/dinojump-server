@@ -6,19 +6,19 @@ import express from 'express'
 import { WebSocketTransport } from '@colyseus/ws-transport'
 import { GameRoom } from './game/game.room'
 import logger from './services/logger.services'
-import * as admin from 'firebase-admin';
+import * as admin from 'firebase-admin'
 import config from './config'
 
 const bootstrap = async () => {
   const port = config.port
-  const firebaseAdminConfig: admin.ServiceAccount= {
+  const firebaseAdminConfig: admin.ServiceAccount = {
     projectId: config.firebase.projectId,
     privateKey: config.firebase.privateKey,
-    clientEmail: config.firebase.clientEmail
+    clientEmail: config.firebase.clientEmail,
   }
 
   admin.initializeApp({
-    credential: admin.credential.cert(firebaseAdminConfig)
+    credential: admin.credential.cert(firebaseAdminConfig),
   })
 
   const app = express()
