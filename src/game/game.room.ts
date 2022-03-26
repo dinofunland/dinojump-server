@@ -71,16 +71,15 @@ export class GameRoom extends Room<GameSchema> {
       })
     })
 
-    this.onMessage(
-      'move',
-      (client, message: { left: boolean; right: boolean }) => {
-        this.dispatcher.dispatch(new PlayerMoveCommand(), {
-          sessionId: client.sessionId,
-          left: message.left,
-          right: message.right,
-        })
-      },
-    )
+    this.onMessage('inputHorizontal', (client, message: number) => {
+      console.log(message)
+      if (typeof message != 'number') return
+
+      this.dispatcher.dispatch(new PlayerMoveCommand(), {
+        sessionId: client.sessionId,
+        horizontal: message,
+      })
+    })
 
     this.onMessage('jump', (client, message) => {
       this.dispatcher.dispatch(new PlayerJumpCommand(), {

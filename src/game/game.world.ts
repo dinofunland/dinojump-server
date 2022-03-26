@@ -114,19 +114,17 @@ export function useGameWorld(schema: GameSchema) {
     schema.players.forEach((player) => {
       const playerBody = player.body
       // player input handling
-      if (player.input.left != player.input.right) {
-        if (player.input.left) {
-          Matter.Body.setVelocity(playerBody, {
-            x: -player.moveSpeed,
-            y: playerBody.velocity.y,
-          })
-        }
-        if (player.input.right) {
-          Matter.Body.setVelocity(playerBody, {
-            x: player.moveSpeed,
-            y: playerBody.velocity.y,
-          })
-        }
+      if (player.input.horizontal < 0) {
+        Matter.Body.setVelocity(playerBody, {
+          x: -player.moveSpeed,
+          y: playerBody.velocity.y,
+        })
+      }
+      if (player.input.horizontal > 0) {
+        Matter.Body.setVelocity(playerBody, {
+          x: player.moveSpeed,
+          y: playerBody.velocity.y,
+        })
       }
 
       // handle player friction if he falls he should have no friction so he dosnt stick on a wall
