@@ -62,8 +62,6 @@ export class FloorSchema extends Schema {
 }
 
 export class InputSchema extends Schema {
-  @type('boolean') left = false
-  @type('boolean') right = false
   @type('number') horizontal = 0
 }
 
