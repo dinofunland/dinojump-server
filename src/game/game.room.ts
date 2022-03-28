@@ -72,7 +72,6 @@ export class GameRoom extends Room<GameSchema> {
     })
 
     this.onMessage<number>('inputHorizontal', (client, message: number) => {
-      console.log(message)
       if (typeof message != 'number') return
 
       this.dispatcher.dispatch(new PlayerMoveCommand(), {
