@@ -110,9 +110,10 @@ export class GameRoom extends Room<GameSchema> {
     })
 
     this.onMessage<{ emoteType: string }>('emote', (client, message) => {
+      console.log(message)
       this.broadcast('emote', {
         sessionId: client.sessionId,
-        emoteType: message?.emoteType,
+        emoteType: message.emoteType,
       })
     })
 
