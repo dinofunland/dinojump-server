@@ -71,7 +71,7 @@ export class GameRoom extends Room<GameSchema> {
       })
     })
 
-    this.onMessage('inputHorizontal', (client, message: number) => {
+    this.onMessage<number>('inputHorizontal', (client, message: number) => {
       console.log(message)
       if (typeof message != 'number') return
 
@@ -93,7 +93,9 @@ export class GameRoom extends Room<GameSchema> {
       })
     })
 
-    this.onMessage('selectSkin', (client, message) => {
+    this.onMessage<{
+      skin: number
+    }>('selectSkin', (client, message) => {
       const hasSkinValue =
         message?.skin != undefined &&
         Object.values(PlayerSkin).includes(message?.skin) &&
@@ -104,6 +106,13 @@ export class GameRoom extends Room<GameSchema> {
       this.dispatcher.dispatch(new PlayerSetSkinCommand(), {
         sessionId: client.sessionId,
         skin: message.skin,
+      })
+    })
+
+    this.onMessage<{ type: string }>('emote', (client, message) => {
+      this.broadcast('emote', {
+        sessionId: client.sessionId,
+        type: message?.type,
       })
     })
 
