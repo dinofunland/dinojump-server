@@ -55,6 +55,7 @@ export class GameRoom extends Room<GameSchema> {
 
     this.gameWorld = useGameWorld(this.state)
     this.setSimulationInterval((deltaTime) => this.update(deltaTime))
+    this.setPatchRate(40)
 
     this.dispatcher.dispatch(new ResetGameCommand())
 
