@@ -54,7 +54,7 @@ export class GameRoom extends Room<GameSchema> {
     this.setState(new GameSchema())
 
     this.gameWorld = useGameWorld(this.state)
-    this.setSimulationInterval((deltaTime) => this.update(deltaTime), 1 / 60)
+    this.setSimulationInterval((deltaTime) => this.update(deltaTime))
 
     this.dispatcher.dispatch(new ResetGameCommand())
 
@@ -164,6 +164,7 @@ export class GameRoom extends Room<GameSchema> {
   update(deltaTime: number) {
     const hasGameEnded = this.state.gameStep == GameStep.ENDED
     if (!hasGameEnded) {
+      console.log(deltaTime)
       Matter.Engine.update(this.gameWorld.engine, deltaTime)
     }
     this.state.sync()
