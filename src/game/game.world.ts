@@ -6,7 +6,6 @@ const playerCategory = 2
 
 export interface useGameWorld {
   engine: Matter.Engine
-  runner: Matter.Runner
   removeBody: (body: Matter.Body) => void
   addPlayer: (
     x: number,
@@ -88,14 +87,7 @@ export function useGameWorld(schema: GameSchema) {
   const ground = createGround()
   Matter.Composite.add(engine.world, ground)
 
-  const runner = Matter.Runner.create({
-    isFixed: true,
-  })
-
-  // run the engine
-  Matter.Runner.run(runner, engine)
-
-  Matter.Events.on(runner, 'beforeTick', (e) => {
+  Matter.Events.on(engine, 'beforeUpdate', (e) => {
     schema.players.forEach((player) => {
       // handle player collision if goes up he should go through platforms. if he falls he should collide with plattforms
       if (player.body.velocity.y < 0) {
@@ -106,7 +98,7 @@ export function useGameWorld(schema: GameSchema) {
     })
   })
 
-  Matter.Events.on(runner, 'beforeUpdate', (e) => {
+  Matter.Events.on(engine, 'beforeUpdate', (e) => {
     const platforms: Matter.Body[] = Array.from(schema.platforms.values()).map(
       (value) => value.body,
     )
@@ -199,12 +191,10 @@ export function useGameWorld(schema: GameSchema) {
   const destory = () => {
     Matter.World.clear(engine.world, false)
     Matter.Engine.clear(engine)
-    Matter.Runner.stop(runner)
   }
 
   return {
     engine,
-    runner,
     removeBody,
     addPlayer,
     addPlatform,

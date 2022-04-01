@@ -16,6 +16,7 @@ import { ResetGameCommand } from './commands/resetGame.command'
 import { SpawnPlatformCommand } from './commands/spawnPlatform.command'
 import { EndGameCommand } from './commands/endGame.command'
 import { RemovePlatformCommand } from './commands/removePlatform'
+import Matter from 'matter-js'
 
 const LETTERS = '12345890ASDF'
 
@@ -53,7 +54,7 @@ export class GameRoom extends Room<GameSchema> {
     this.setState(new GameSchema())
 
     this.gameWorld = useGameWorld(this.state)
-    this.setSimulationInterval((deltaTime) => this.update(deltaTime))
+    this.setSimulationInterval((deltaTime) => this.update(deltaTime), 1 / 120)
 
     this.dispatcher.dispatch(new ResetGameCommand())
 
@@ -161,6 +162,10 @@ export class GameRoom extends Room<GameSchema> {
   }
 
   update(deltaTime: number) {
+    const hasGameEnded = this.state.gameStep == GameStep.ENDED
+    if (!hasGameEnded) {
+      Matter.Engine.update(this.gameWorld.engine, deltaTime)
+    }
     this.state.sync()
     this.state.update(deltaTime)
 

@@ -19,7 +19,6 @@ export class ResetGameCommand extends Command<GameRoom, ResetGamePayload> {
     this.room.dispatcher.dispatch(new SpawnPlatformCommand())
     this.room.dispatcher.dispatch(new SpawnPlatformCommand())
     this.room.dispatcher.dispatch(new SpawnPlatformCommand())
-    this.room.gameWorld.runner.enabled = true
     this.room.unlock()
   }
 }

@@ -12,7 +12,6 @@ export class EndGameCommand extends Command<GameRoom, EndGamePayload> {
     logger('End Game', 'Command')
     if (this.state.gameStep != GameStep.ONGOING) return
     this.state.gameStep = GameStep.ENDED
-    this.room.gameWorld.runner.enabled = false
 
     const playerNames = Array.from(this.state.players.values()).map((obj) => {
       return obj.username
