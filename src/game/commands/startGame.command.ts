@@ -18,6 +18,6 @@ export class StartGameCommand extends Command<GameRoom, StartGamePayload> {
 
     this.clock.setTimeout(() => {
       this.state.gameStep = GameStep.ONGOING
-    }, 5_000)
+    }, 3_000)
   }
 }
