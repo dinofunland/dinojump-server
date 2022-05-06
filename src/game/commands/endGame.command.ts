@@ -20,7 +20,7 @@ export class EndGameCommand extends Command<GameRoom, EndGamePayload> {
     admin.firestore().collection('scores').add({
       score: this.state.score,
       players: playerNames,
-      playersCount: playerNames.length
+      playersCount: playerNames.length,
     })
 
     this.clock.setTimeout(() => {
