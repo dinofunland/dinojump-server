@@ -48,6 +48,7 @@ export class GameRoom extends Room<GameSchema> {
 
   async onCreate(options: any) {
     logger(`onCreate`, 'GameRoom')
+    this.maxClients = 4
 
     this.roomId = await this.generateRoomId()
 
