@@ -8,6 +8,7 @@ import { GameRoom } from './game/game.room'
 import logger from './services/logger.services'
 import * as admin from 'firebase-admin'
 import config from './config'
+import basicAuth from 'express-basic-auth'
 
 const bootstrap = async () => {
   const port = config.port
@@ -22,7 +23,14 @@ const bootstrap = async () => {
   })
 
   const app = express()
-  app.use('/colyseus', monitor())
+  const basicAuthMiddleware = basicAuth({
+    users: {
+      admin: config.auth.adminPassword,
+    },
+    challenge: true,
+  })
+
+  app.use('/colyseus', basicAuthMiddleware, monitor())
   app.get('/', function (req, res) {
     res.send('200 OK - Dino Fun Land')
   })

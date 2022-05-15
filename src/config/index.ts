@@ -1,5 +1,8 @@
 export default {
   port: parseInt(process.env.PORT, 10) || 3000,
+  auth: {
+    adminPassword: process.env.ADMIN_PASSWORD || 'admin',
+  },
   firebase: {
     clientEmail: process.env.FIREBASE_CLIENT_EMAIL,
     projectId: process.env.FIREBASE_PROJECT_ID,
