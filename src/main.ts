@@ -33,6 +33,7 @@ const bootstrap = async () => {
 
   app.use('/colyseus', basicAuthMiddleware, monitor())
   app.get('/', function (req, res) {
+    logger(`Health Check from ${req.ip}`)
     res.send('200 OK - Dino Fun Land')
   })
   const redisOptions = {
