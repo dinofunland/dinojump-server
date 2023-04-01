@@ -35,17 +35,19 @@ const bootstrap = async () => {
   app.get('/', function (req, res) {
     res.send('200 OK - Dino Fun Land')
   })
-
+  const redisOptions = {
+    url: process.env.REDIS_URL,
+    port: process.env.REDISPORT,
+    host: process.env.REDISHOST,
+    username: process.env.REDISUSER,
+    password: process.env.REDISPASSWORD,
+  }
   const gameServer = new Server({
     transport: new WebSocketTransport({
       server: createServer(app),
     }),
-    presence: new RedisPresence({
-      url: process.env.REDIS_URL
-    }),
-    driver: new RedisDriver({
-      url: process.env.REDIS_URL
-    }),
+    presence: new RedisPresence(redisOptions),
+    driver: new RedisDriver(redisOptions)
   })
 
   gameServer.define(GameRoom.name, GameRoom)
