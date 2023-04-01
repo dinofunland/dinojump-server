@@ -12,7 +12,7 @@ import basicAuth from 'express-basic-auth'
 import { RedisDriver } from '@colyseus/redis-driver'
 
 const bootstrap = async () => {
-  const port = config.port
+  const port = Number(config.port || 3000)
   const firebaseAdminConfig: admin.ServiceAccount = {
     projectId: config.firebase.projectId,
     privateKey: config.firebase.privateKey,
