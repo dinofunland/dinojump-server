@@ -14,7 +14,7 @@ import { RedisDriver } from '@colyseus/redis-driver'
 const bootstrap = async () => {
   const port = config.port
   const publicAddress = config.publicAddress
-    ? `${config.publicAddress}:${config.port}`
+    ? `${config.publicAddress}`
     : undefined
   
   const firebaseAdminConfig: admin.ServiceAccount = {
