@@ -49,7 +49,7 @@ const bootstrap = async () => {
     }),
     presence: new RedisPresence(redisOptions),
     driver: new RedisDriver(redisOptions),
-    publicAddress: 'dinojump-server-test.up.railway.app'
+    publicAddress: process.env.PUBLIC_ADDRESS
   })
 
   gameServer.define(GameRoom.name, GameRoom)
