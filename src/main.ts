@@ -12,7 +12,11 @@ import basicAuth from 'express-basic-auth'
 import { RedisDriver } from '@colyseus/redis-driver'
 
 const bootstrap = async () => {
-  const port = Number(config.port || 3000)
+  const port = config.port
+  const publicAddress = config.publicAddress
+    ? `${config.publicAddress}:${config.port}`
+    : undefined
+  
   const firebaseAdminConfig: admin.ServiceAccount = {
     projectId: config.firebase.projectId,
     privateKey: config.firebase.privateKey,
@@ -36,27 +40,25 @@ const bootstrap = async () => {
     logger(`Health Check from ${req.ip}`)
     res.send('200 OK - Dino Fun Land')
   })
-  const redisOptions = {
-    url: process.env.REDIS_URL,
-    port: process.env.REDISPORT,
-    host: process.env.REDISHOST,
-    username: process.env.REDISUSER,
-    password: process.env.REDISPASSWORD,
-  }
   const gameServer = new Server({
     transport: new WebSocketTransport({
       server: createServer(app),
     }),
-    presence: new RedisPresence(redisOptions),
-    driver: new RedisDriver(redisOptions),
-    publicAddress: process.env.PUBLIC_ADDRESS
+    presence: config.connect.presence
+      ? new RedisPresence(config.redis)
+      : undefined,
+    driver: config.connect.driver
+      ? new RedisDriver(config.redis)
+      : undefined,
+    publicAddress: publicAddress
   })
 
   gameServer.define(GameRoom.name, GameRoom)
-  logger(`define: ${GameRoom.name}`, 'Server')
+  logger(`define: ${GameRoom.name}`)
 
   gameServer.listen(port)
-  logger(`Listening on Port: ${port}`, 'Server')
+  logger(`Listening on Port: ${port}`)
+  logger(`Public address: ${publicAddress}`)
 }
 
 bootstrap()

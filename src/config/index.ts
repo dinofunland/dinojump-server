@@ -1,5 +1,5 @@
 export default {
-  port: parseInt(process.env.PORT, 10) || 3000,
+  port: Number(process.env.PORT || 3000),
   auth: {
     adminPassword: process.env.ADMIN_PASSWORD || 'admin',
   },
@@ -10,4 +10,16 @@ export default {
       ? process.env.FIREBASE_PRIVATE_KEY.replace(/\\n/g, '\n')
       : undefined,
   },
+  connect: {
+    presence: process.env.CONNECT_PRESENCE === 'true',
+    driver: process.env.CONNECT_DRIVER === 'true'
+  },
+  redis: {
+    url: process.env.REDIS_URL,
+    port: process.env.REDISPORT,
+    host: process.env.REDISHOST,
+    username: process.env.REDISUSER,
+    password: process.env.REDISPASSWORD,
+  },
+  publicAddress: process.env.PUBLIC_ADDRESS
 }
