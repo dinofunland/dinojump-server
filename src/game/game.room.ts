@@ -166,7 +166,6 @@ export class GameRoom extends Room<GameSchema> {
   update(deltaTime: number) {
     const hasGameEnded = this.state.gameStep == GameStep.ENDED
     if (!hasGameEnded) {
-      console.log(deltaTime)
       Matter.Engine.update(this.gameWorld.engine, deltaTime)
     }
     this.state.sync()
