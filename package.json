@@ -17,6 +17,8 @@
   "dependencies": {
     "@colyseus/command": "^0.2.1",
     "@colyseus/monitor": "^0.15.0-preview.1",
+    "@colyseus/redis-driver": "^0.15.0-preview.0",
+    "@colyseus/redis-presence": "^0.15.0-preview.2",
     "@colyseus/ws-transport": "^0.15.0-preview.2",
     "@types/matter-js": "^0.17.7",
     "bignumber.js": "^9.0.2",

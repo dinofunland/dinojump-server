@@ -1,5 +1,5 @@
 import 'dotenv/config'
-import { Server } from 'colyseus'
+import { RedisPresence, Server } from 'colyseus'
 import { createServer } from 'http'
 import { monitor } from '@colyseus/monitor'
 import express from 'express'
@@ -9,6 +9,7 @@ import logger from './services/logger.services'
 import * as admin from 'firebase-admin'
 import config from './config'
 import basicAuth from 'express-basic-auth'
+import { RedisDriver } from '@colyseus/redis-driver'
 
 const bootstrap = async () => {
   const port = config.port
@@ -38,6 +39,12 @@ const bootstrap = async () => {
   const gameServer = new Server({
     transport: new WebSocketTransport({
       server: createServer(app),
+    }),
+    presence: new RedisPresence({
+      url: process.env.REDIS_URL
+    }),
+    driver: new RedisDriver({
+      url: process.env.REDIS_URL
     }),
   })
 
