@@ -47,7 +47,8 @@ const bootstrap = async () => {
       server: createServer(app),
     }),
     presence: new RedisPresence(redisOptions),
-    driver: new RedisDriver(redisOptions)
+    driver: new RedisDriver(redisOptions),
+    publicAddress: "test.test.com"
   })
 
   gameServer.define(GameRoom.name, GameRoom)
