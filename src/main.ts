@@ -16,7 +16,7 @@ const bootstrap = async () => {
   const publicAddress = config.publicAddress
     ? `${config.publicAddress}`
     : undefined
-  
+
   const firebaseAdminConfig: admin.ServiceAccount = {
     projectId: config.firebase.projectId,
     privateKey: config.firebase.privateKey,
@@ -47,10 +47,8 @@ const bootstrap = async () => {
     presence: config.connect.presence
       ? new RedisPresence(config.redis)
       : undefined,
-    driver: config.connect.driver
-      ? new RedisDriver(config.redis)
-      : undefined,
-    publicAddress: publicAddress
+    driver: config.connect.driver ? new RedisDriver(config.redis) : undefined,
+    publicAddress: publicAddress,
   })
 
   gameServer.define(GameRoom.name, GameRoom)

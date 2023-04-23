@@ -12,7 +12,7 @@ export default {
   },
   connect: {
     presence: process.env.CONNECT_PRESENCE === 'true',
-    driver: process.env.CONNECT_DRIVER === 'true'
+    driver: process.env.CONNECT_DRIVER === 'true',
   },
   redis: {
     url: process.env.REDIS_URL,
@@ -21,5 +21,5 @@ export default {
     username: process.env.REDISUSER,
     password: process.env.REDISPASSWORD,
   },
-  publicAddress: process.env.PUBLIC_ADDRESS
+  publicAddress: process.env.PUBLIC_ADDRESS,
 }
