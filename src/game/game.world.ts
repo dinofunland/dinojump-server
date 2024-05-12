@@ -1,5 +1,6 @@
 import * as Matter from 'matter-js'
 import { GameSchema, PlatformType } from './game.state'
+import logger from '../services/logger.services'
 
 const platformCategory = 1
 const playerCategory = 2
@@ -24,6 +25,7 @@ export interface useGameWorld {
 }
 
 export function useGameWorld(schema: GameSchema) {
+  logger(`created`, 'GameWorld')
   const engine = Matter.Engine.create()
 
   const addPlayer = (
@@ -189,6 +191,7 @@ export function useGameWorld(schema: GameSchema) {
   })
 
   const destory = () => {
+    logger(`destroy`, 'GameWorld')
     Matter.World.clear(engine.world, false)
     Matter.Engine.clear(engine)
   }
