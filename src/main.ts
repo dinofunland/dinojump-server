@@ -2,6 +2,7 @@ import 'dotenv/config'
 import { RedisPresence, Server } from 'colyseus'
 import { createServer } from 'http'
 import { monitor } from '@colyseus/monitor'
+import { playground } from "@colyseus/playground";
 import express from 'express'
 import { WebSocketTransport } from '@colyseus/ws-transport'
 import { GameRoom } from './game/game.room'
@@ -36,6 +37,7 @@ const bootstrap = async () => {
   })
 
   app.use('/colyseus', basicAuthMiddleware, monitor())
+  app.use("/playground", basicAuthMiddleware, playground);
   app.get('/', function (req, res) {
     logger(`Health Check from ${req.ip}`)
     res.send('200 OK - Dino Fun Land')
