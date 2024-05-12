@@ -1,5 +1,5 @@
 import 'dotenv/config'
-import { RedisPresence, Server } from 'colyseus'
+import { Server } from 'colyseus'
 import { createServer } from 'http'
 import { monitor } from '@colyseus/monitor'
 import { playground } from "@colyseus/playground";
@@ -10,13 +10,9 @@ import logger from './services/logger.services'
 import * as admin from 'firebase-admin'
 import config from './config'
 import basicAuth from 'express-basic-auth'
-import { RedisDriver } from '@colyseus/redis-driver'
 
 const bootstrap = async () => {
   const port = config.port
-  const publicAddress = config.publicAddress
-    ? `${config.publicAddress}`
-    : undefined
 
   const firebaseAdminConfig: admin.ServiceAccount = {
     projectId: config.firebase.projectId,
@@ -46,11 +42,6 @@ const bootstrap = async () => {
     transport: new WebSocketTransport({
       server: createServer(app),
     }),
-    presence: config.connect.presence
-      ? new RedisPresence(config.redis)
-      : undefined,
-    driver: config.connect.driver ? new RedisDriver(config.redis) : undefined,
-    publicAddress: publicAddress,
   })
 
   gameServer.define(GameRoom.name, GameRoom)
@@ -58,7 +49,6 @@ const bootstrap = async () => {
 
   gameServer.listen(port)
   logger(`Listening on Port: ${port}`)
-  logger(`Public address: ${publicAddress}`)
 }
 
 bootstrap()
